@@ -605,7 +605,7 @@ async function handleOrderSubmission(e){
   // Send Email via EmailJS Service
   try {
     // Replace YOUR_SERVICE_ID & YOUR_TEMPLATE_ID with your EmailJS credentials
-    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+    await emailjs.send('service_abc1234', 'YOUR_TEMPLATE_ID', templateParams);
     toast("PASSWORD VERIFIED // ORDER SENT TO CORTEXFUSIONX@GMAIL.COM");
   } catch (err) {
     console.error("EmailJS Error:", err);
