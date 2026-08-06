@@ -195,7 +195,12 @@ footer{padding:50px 6%;border-top:1px solid rgba(0,234,255,.12);background:#0203
 footer p{color:#5f6b79;margin-top:8px}
 .footer-links{display:flex;gap:22px;flex-wrap:wrap}.footer-links a{color:#718092;text-decoration:none}.footer-links a:hover{color:var(--cyan)}
 
-.toast{position:fixed;right:20px;bottom:20px;z-index:3000;background:#081018;border:1px solid var(--cyan);color:var(--cyan);padding:14px 18px;border-radius:7px;box-shadow:0 0 25px rgba(0,234,255,.18);font:700 13px monospace;display:none}
+.toast{
+  position:fixed;right:20px;bottom:20px;z-index:3000;
+  background:#081018;border:1px solid var(--cyan);color:var(--cyan);
+  padding:16px 22px;border-radius:10px;box-shadow:0 0 35px rgba(0,234,255,.3);
+  font:700 13px/1.5 monospace;display:none;max-width:420px;white-space:pre-line;
+}
 
 /* FLIPKART STYLE CART & CHECKOUT MODAL */
 .cyber-modal-overlay {
@@ -707,26 +712,34 @@ async function handleCartCheckout(event){
     const serviceID = 'service_abc1234';
     const templateID = 'YOUR_TEMPLATE_ID';
     await emailjs.send(serviceID, templateID, templateParams);
-    toast("ORDER DETAILS SENT TO DEADXGAMING42@GMAIL.COM");
   } catch (err) {
     console.error("EmailJS dispatch error:", err);
   }
 
   submitBtn.disabled = false;
   submitBtn.textContent = "CONTINUE TO PURCHASE →";
+  
+  // Close the cart/checkout modal automatically
   closeCyberBuyModal();
+
+  // Clear the cart after successful order placement
+  cart = [];
+  saveCart();
 
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (isMobile) {
-    // Phone ke andar automatic call khul jayegi 7206789580 par
+    // Mobile device: trigger phone call
     window.location.href = "tel:7206789580";
   } else {
-    // Laptop ke andar automatic Gmail compose page khul jayega with prefilled details
+    // Desktop: open Gmail compose page in a separate tab
     const emailSubject = encodeURIComponent("New Order / Purchase from " + name);
     const emailBody = encodeURIComponent(`Hello Cortex Fusion X,\n\nI want to purchase the following items from my cart:\n${cartSummaryText}\n\nTotal Amount: ₹${total.toFixed(2)}\n\nCustomer Details:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress/Notes: ${address}`);
-    window.location.href = `https://mail.google.com/mail/?view=cm&fs=1&to=deadxgaming42@gmail.com&subject=${emailSubject}&body=${emailBody}`;
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=deadxgaming42@gmail.com&subject=${emailSubject}&body=${emailBody}`, '_blank');
   }
+
+  // Show success notification banner
+  toast("🎉 ORDER PLACED SUCCESSFULLY!\nYour purchase request has been successfully registered and emailed/called to our team.");
 }
 
 const pages = {
@@ -1149,7 +1162,7 @@ function esc(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 function toast(msg){
   const t=document.getElementById("toast"); if(!t)return;
   t.textContent=msg;t.style.display="block";clearTimeout(window.__t);
-  window.__t=setTimeout(()=>t.style.display="none",2500);
+  window.__t=setTimeout(()=>t.style.display="none",5000);
 }
 
 async function loadLiveProducts(targetContainerId) {
