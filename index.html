@@ -696,7 +696,7 @@ async function handleCartCheckout(event){
   let cartSummaryText = cart.map(i => `${i.name} (x${i.quantity}) - ₹${(i.basePrice * i.quantity).toFixed(2)}`).join(', ');
 
   const templateParams = {
-    to_email: 'deadxgaming42@gmail.com',
+    to_email: 'cortexfusionx@gmail.com',
     customer_name: name,
     customer_email: email,
     customer_phone: phone,
@@ -732,13 +732,13 @@ async function handleCartCheckout(event){
     // Mobile device: trigger phone call
     window.location.href = "tel:7206789580";
   } else {
-    // Desktop: open Gmail compose page in a separate tab
+    // Desktop: open Gmail compose page in a separate tab with cortexfusionx@gmail.com primary
     const emailSubject = encodeURIComponent("New Order / Purchase from " + name);
     const emailBody = encodeURIComponent(`Hello Cortex Fusion X,\n\nI want to purchase the following items from my cart:\n${cartSummaryText}\n\nTotal Amount: ₹${total.toFixed(2)}\n\nCustomer Details:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress/Notes: ${address}`);
-    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=deadxgaming42@gmail.com&subject=${emailSubject}&body=${emailBody}`, '_blank');
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=cortexfusionx@gmail.com&subject=${emailSubject}&body=${emailBody}`, '_blank');
   }
 
-  // Show success notification banner
+  // Show success notification banner without LaTeX
   toast("🎉 ORDER PLACED SUCCESSFULLY!\nYour purchase request has been successfully registered and emailed/called to our team.");
 }
 
@@ -823,8 +823,8 @@ contact: `
     <div class="contact-icon">✉️</div>
     <h3>Official Email</h3>
     <p>Send your project queries, feedback or technical questions to our primary email address.</p>
-    <a class="contact-link-btn contact-btn-cyan" href="mailto:deadxgaming42@gmail.com">
-      deadxgaming42@gmail.com ↗
+    <a class="contact-link-btn contact-btn-cyan" href="mailto:cortexfusionx@gmail.com">
+      cortexfusionx@gmail.com ↗
     </a>
   </div>
 
