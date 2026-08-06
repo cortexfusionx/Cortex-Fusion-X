@@ -732,26 +732,27 @@ async function handleCartCheckout(event){
     // Mobile device: trigger phone call
     window.location.href = "tel:7206789580";
   } else {
-    // Desktop: open Gmail compose page in a separate tab with cortexfusionx@gmail.com primary
+    // Desktop: open Gmail compose page in a separate tab with subject set to "purchase request"
     const emailSubject = encodeURIComponent("purchase request");
     const emailBody = encodeURIComponent(`Hello Cortex Fusion X,\n\nI want to purchase the following items from my cart:\n${cartSummaryText}\nShipping: ₹99.00 ($1.04)\n\nTotal Amount: ₹${total.toFixed(2)}\n\nCustomer Details:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress/Notes: ${address}`);
     
     // Open Gmail tab
     let gmailWindow = window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=cortexfusionx@gmail.com&subject=${emailSubject}&body=${emailBody}`, '_blank');
     
-    // Monitor when the Gmail window/tab closes (or directly fallback via timeout interval check)
+    // Monitor when the Gmail window/tab closes, then open popup window after 2 seconds
     if (gmailWindow) {
       let checkWindowClosed = setInterval(() => {
         if (gmailWindow.closed) {
           clearInterval(checkWindowClosed);
-          // Show popup message right after Gmail tab closes
-          toast("🎉 ORDER PLACED SUCCESSFULLY!\nYour purchase request has been successfully registered and emailed/called to our team.");
+          setTimeout(() => {
+            toast("🎉 ORDER PLACED SUCCESSFULLY!\nYour purchase request has been successfully registered and emailed/called to our team.");
+          }, 2000); // 2 seconds delay as requested
         }
       }, 1000);
     }
   }
 
-  // Fallback toast alert immediately for safety if mobile or window reference is blocked
+  // Fallback toast alert immediately for safety if mobile
   if (isMobile) {
     toast("🎉 ORDER PLACED SUCCESSFULLY!\nYour purchase request has been successfully registered and emailed/called to our team.");
   }
