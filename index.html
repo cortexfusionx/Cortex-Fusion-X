@@ -45,12 +45,16 @@ body:after{
 }
 #bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.18;pointer-events:none}
 
+/* HEADER & NAVIGATION FIXES */
 header{
   position:fixed;top:0;left:0;width:100%;z-index:1000;
   background:rgba(3,5,7,.72);backdrop-filter:blur(18px);
   border-bottom:1px solid rgba(0,234,255,.18);
 }
-nav{max-width:1280px;height:76px;margin:auto;padding:0 24px;display:flex;align-items:center;justify-space-between}
+nav{
+  max-width:1280px;height:76px;margin:auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
 
 .logo {
   display: flex;
@@ -62,21 +66,22 @@ nav{max-width:1280px;height:76px;margin:auto;padding:0 24px;display:flex;align-i
   text-decoration: none;
   color: #fff;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 .logo:hover {
   transform: scale(1.03);
 }
 .logo-icon-wrap {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%; /* Pure Circle */
-  background: linear-gradient(135deg, rgba(255,22,61,0.2), rgba(0,234,255,0.2));
-  border: 1px solid var(--cyan);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Circular Logo */
+  background: #000;
+  border: 1.5px solid var(--red);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 15px rgba(0,234,255,0.4);
-  overflow: hidden; /* Photo ko circle boundary mein crop karne ke liye */
+  box-shadow: 0 0 15px rgba(255,22,61,0.6);
+  overflow: hidden;
 }
 .logo-icon-wrap img {
   width: 100%;
@@ -108,7 +113,12 @@ nav{max-width:1280px;height:76px;margin:auto;padding:0 24px;display:flex;align-i
   100% { box-shadow: 0 0 25px rgba(255,0,60,0.9), 0 0 10px var(--cyan); }
 }
 
-.nav-links{display:flex;gap:27px;list-style:none}
+.nav-links{
+  display:flex;
+  gap:27px;
+  list-style:none;
+  margin: 0 auto; /* Keeps Links Perfectly Centered */
+}
 .nav-links a{color:#b8c1cc;text-decoration:none;font-size:13px;letter-spacing:1px;transition:.25s}
 .nav-links a:hover{color:var(--cyan);text-shadow:0 0 12px rgba(0,234,255,.5)}
 .signin,.btn{
@@ -116,6 +126,7 @@ nav{max-width:1280px;height:76px;margin:auto;padding:0 24px;display:flex;align-i
   border-radius:7px;padding:11px 19px;background:rgba(255,0,55,.05);
   cursor:pointer;transition:.25s;font-weight:800;letter-spacing:.6px;
   display:inline-block;
+  flex-shrink: 0;
 }
 .signin:hover,.primary:hover{background:var(--red);box-shadow:0 0 28px rgba(255,0,55,.45);transform:translateY(-2px)}
 
@@ -211,7 +222,7 @@ section{padding:105px 6%;position:relative}
 .cta p{color:#8995a4;max-width:650px;margin:0 auto 28px;line-height:1.7}
 
 footer{padding:50px 6%;border-top:1px solid rgba(0,234,255,.12);background:#020304}
-.footer-content{max-width:1220px;margin:auto;display:flex;justify-between;gap:25px;flex-wrap:wrap}
+.footer-content{max-width:1220px;margin:auto;display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap}
 .footer-logo{font-size:24px;font-weight:950;letter-spacing:2px}.footer-logo span{color:var(--red)}
 footer p{color:#5f6b79;margin-top:8px}
 .footer-links{display:flex;gap:22px;flex-wrap:wrap}.footer-links a{color:#718092;text-decoration:none}.footer-links a:hover{color:var(--cyan)}
@@ -273,7 +284,7 @@ footer p{color:#5f6b79;margin-top:8px}
 
 @keyframes pulse{50%{transform:scale(1.07);opacity:.65}}
 @media(max-width:850px){
- .nav-links{display:none}.signin{padding:99px 13px}
+ .nav-links{display:none}
  .hero h1{letter-spacing:-3px}.hero:before{width:340px;height:340px}
  .stats{grid-template-columns:1fr}
  .section-title h2,.cta h2{font-size:35px}
@@ -435,7 +446,7 @@ footer p{color:#5f6b79;margin-top:8px}
 }
 .price-box{
   padding:22px;border:1px solid rgba(255,22,61,.35);border-radius:12px;
-  background:rgba(255,0,55,.03);display:flex;justify-between;align-items:center;flex-wrap:wrap;gap:15px;
+  background:rgba(255,0,55,.03);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;
 }
 .price-value{font:900 32px monospace;color:var(--green)}
 .tech-pill-container{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
