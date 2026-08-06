@@ -202,6 +202,33 @@ footer p{color:#5f6b79;margin-top:8px}
   font:700 13px/1.5 monospace;display:none;max-width:420px;white-space:pre-line;
 }
 
+/* FULL SCREEN POPUP MESSAGE (PURCHASED SUCCESSFULLY) */
+.fullscreen-popup-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: rgba(3, 5, 7, 0.95); backdrop-filter: blur(16px);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.fullscreen-popup-card {
+  max-width: 500px; width: 100%; padding: 40px 30px; text-align: center;
+  background: linear-gradient(145deg, rgba(16,22,31,0.98), rgba(5,8,12,0.98));
+  border: 2px solid var(--green); border-radius: 22px;
+  box-shadow: 0 0 80px rgba(0,255,136,0.3); animation: popupZoom 0.3s ease-out;
+}
+@keyframes popupZoom {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.fullscreen-popup-icon { font-size: 64px; margin-bottom: 20px; }
+.fullscreen-popup-title { font: 950 26px monospace; color: var(--green); letter-spacing: 2px; margin-bottom: 12px; text-shadow: 0 0 20px rgba(0,255,136,0.4); }
+.fullscreen-popup-sub { color: var(--muted); font-size: 15px; line-height: 1.6; margin-bottom: 30px; }
+.fullscreen-popup-btn {
+  width: 100%; padding: 14px; border: none; border-radius: 8px;
+  background: linear-gradient(135deg, var(--green), #00b359);
+  color: #000; font: 900 14px monospace; letter-spacing: 1.5px;
+  cursor: pointer; box-shadow: 0 0 25px rgba(0,255,136,0.4); transition: 0.3s;
+}
+.fullscreen-popup-btn:hover { box-shadow: 0 0 35px rgba(0,255,136,0.7); transform: translateY(-2px); }
+
 /* FLIPKART STYLE CART & CHECKOUT MODAL */
 .cyber-modal-overlay {
   position: fixed; inset: 0; z-index: 9999;
@@ -531,6 +558,16 @@ footer p{color:#5f6b79;margin-top:8px}
   </div>
 </div>
 
+<!-- FULL SCREEN POPUP MESSAGE MODAL (AFTER GMAIL CLOSES) -->
+<div class="fullscreen-popup-overlay" id="fullscreen-success-popup">
+  <div class="fullscreen-popup-card">
+    <div class="fullscreen-popup-icon">🎉</div>
+    <div class="fullscreen-popup-title">PURCHASED SUCCESSFULLY</div>
+    <div class="fullscreen-popup-sub">Your purchase request has been submitted and processed successfully. Thank you for choosing Cortex Fusion X!</div>
+    <button class="fullscreen-popup-btn" onclick="closeFullscreenPopup()">CONTINUE →</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <footer>
@@ -616,6 +653,16 @@ function openCartModal(e) {
 
 function closeCyberBuyModal() {
   document.getElementById("cyber-buy-modal").style.display = "none";
+}
+
+function showFullscreenPopup() {
+  const popup = document.getElementById("fullscreen-success-popup");
+  if (popup) popup.style.display = "flex";
+}
+
+function closeFullscreenPopup() {
+  const popup = document.getElementById("fullscreen-success-popup");
+  if (popup) popup.style.display = "none";
 }
 
 function renderCartModalItems() {
@@ -737,24 +784,26 @@ async function handleCartCheckout(event){
     const emailBody = encodeURIComponent(`Hello Cortex Fusion X,\n\nI want to purchase the following items from my cart:\n${cartSummaryText}\nShipping: ₹99.00 ($1.04)\n\nTotal Amount: ₹${total.toFixed(2)}\n\nCustomer Details:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress/Notes: ${address}`);
     
     // Open Gmail tab
-    let gmailWindow = window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=cortexfusionx@gmail.com&subject=${emailSubject}&body=${emailBody}`, '_blank');
+    let gmailWindow = window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=cortexfusionx@gmail.com&su=${emailSubject}&body=${emailBody}`, '_blank');
     
-    // Monitor when the Gmail window/tab closes, then open popup window after 2 seconds
+    // Monitor when the Gmail window/tab closes, then open full screen popup message exactly 3 seconds after Gmail closes
     if (gmailWindow) {
       let checkWindowClosed = setInterval(() => {
         if (gmailWindow.closed) {
           clearInterval(checkWindowClosed);
           setTimeout(() => {
-            toast("🎉 ORDER PLACED SUCCESSFULLY!\nYour purchase request has been successfully registered and emailed/called to our team.");
-          }, 2000); // 2 seconds delay as requested
+            showFullscreenPopup();
+          }, 3000); // 3 seconds delay after Gmail closes
         }
       }, 1000);
     }
   }
 
-  // Fallback toast alert immediately for safety if mobile
+  // Fallback full screen popup after 3 seconds if mobile
   if (isMobile) {
-    toast("🎉 ORDER PLACED SUCCESSFULLY!\nYour purchase request has been successfully registered and emailed/called to our team.");
+    setTimeout(() => {
+      showFullscreenPopup();
+    }, 3000);
   }
 }
 
