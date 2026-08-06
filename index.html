@@ -14,7 +14,6 @@
 <!-- EMAILJS INITIALIZATION -->
 <script>
   (function(){
-      // Replace YOUR_PUBLIC_KEY with your actual EmailJS Public Key
       emailjs.init("YOUR_PUBLIC_KEY");
   })();
 </script>
@@ -91,7 +90,7 @@ nav{
   100% { box-shadow: 0 0 25px rgba(255,0,60,0.9), 0 0 10px var(--cyan); }
 }
 
-.nav-links{ display:flex; gap:27px; list-style:none; margin: 0 auto; }
+.nav-links{ display:flex; gap:27px; list-style:none; margin: 0 auto; align-items: center; }
 .nav-links a{color:#b8c1cc;text-decoration:none;font-size:13px;letter-spacing:1px;transition:.25s}
 .nav-links a:hover{color:var(--cyan);text-shadow:0 0 12px rgba(0,234,255,.5)}
 .signin,.btn{
@@ -101,6 +100,15 @@ nav{
   display:inline-block; flex-shrink: 0;
 }
 .signin:hover,.primary:hover{background:var(--red);box-shadow:0 0 28px rgba(255,0,55,.45);transform:translateY(-2px)}
+
+/* HEADER CART BADGE */
+.header-cart-link {
+  display: flex; align-items: center; gap: 6px; font: 800 12px monospace; color: var(--cyan);
+  background: rgba(0,234,255,0.08); border: 1px solid rgba(0,234,255,0.3); padding: 6px 12px; border-radius: 20px;
+  text-decoration: none; transition: 0.2s;
+}
+.header-cart-link:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px rgba(0,234,255,0.4); }
+.cart-count-bubble { background: var(--red); color: #fff; padding: 1px 6px; border-radius: 10px; font-size: 10px; }
 
 .founder-hero-badge {
   display: inline-flex; align-items: center; gap: 12px; margin: 22px 0; padding: 12px 28px;
@@ -186,61 +194,6 @@ footer p{color:#5f6b79;margin-top:8px}
 .footer-links{display:flex;gap:22px;flex-wrap:wrap}.footer-links a{color:#718092;text-decoration:none}.footer-links a:hover{color:var(--cyan)}
 
 .toast{position:fixed;right:20px;bottom:20px;z-index:3000;background:#081018;border:1px solid var(--cyan);color:var(--cyan);padding:14px 18px;border-radius:7px;box-shadow:0 0 25px rgba(0,234,255,.18);font:700 13px monospace;display:none}
-
-/* BILLING & PAYMENTS CYBER MODAL */
-.cyber-modal-overlay {
-  position: fixed; inset: 0; z-index: 9999;
-  background: rgba(3, 5, 7, 0.92); backdrop-filter: blur(14px);
-  display: none; align-items: center; justify-content: center; padding: 20px;
-  overflow-y: auto;
-}
-.cyber-modal-card {
-  max-width: 520px; width: 100%; padding: 30px;
-  background: linear-gradient(145deg, rgba(16,22,31,0.98), rgba(5,8,12,0.98));
-  border: 1.5px solid var(--cyan); border-radius: 20px;
-  box-shadow: 0 0 60px rgba(0,234,255,0.35); text-align: left; position: relative;
-  max-height: 90vh; overflow-y: auto;
-}
-.cyber-modal-tag {
-  display: inline-block; font: 800 11px monospace; letter-spacing: 2px;
-  color: var(--cyan); background: rgba(0,234,255,0.08); padding: 5px 14px;
-  border-radius: 20px; border: 1px solid rgba(0,234,255,0.3); margin-bottom: 12px;
-}
-.cyber-modal-title { font: 950 22px monospace; color: #fff; letter-spacing: 1.5px; margin-bottom: 6px; }
-.cyber-modal-sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
-
-.checkout-summary {
-  background: rgba(0,234,255,0.04); border: 1px dashed var(--cyan);
-  border-radius: 10px; padding: 14px; margin-bottom: 18px;
-}
-.checkout-line { display: flex; justify-content: space-between; font: 14px monospace; margin-bottom: 6px; }
-.checkout-line.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; font-weight: 900; color: var(--green); font-size: 16px; }
-
-.form-group { margin-bottom: 12px; }
-.form-group label { display: block; font: 800 11px monospace; color: var(--muted); margin-bottom: 5px; }
-.form-group input, .form-group textarea {
-  width: 100%; background: #020509; border: 1px solid rgba(0,234,255,0.3);
-  color: #fff; padding: 10px; border-radius: 6px; outline: none; font-size: 13px;
-}
-.form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,234,255,0.3); }
-
-.upi-gateways { display: flex; gap: 10px; margin: 15px 0; }
-.upi-btn {
-  flex: 1; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 8px; color: #fff; text-align: center; font: 800 12px monospace; cursor: pointer; text-decoration: none;
-  display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;
-}
-.upi-btn.selected { border-color: var(--green); background: rgba(0,255,136,0.15); box-shadow: 0 0 15px rgba(0,255,136,0.3); }
-.upi-btn:hover { border-color: var(--cyan); background: rgba(0,234,255,0.1); }
-
-.cyber-modal-btn {
-  width: 100%; padding: 14px; border: none; border-radius: 8px;
-  background: linear-gradient(135deg, var(--red2), #80001d);
-  color: #fff; font: 900 13px monospace; letter-spacing: 1.5px;
-  cursor: pointer; box-shadow: 0 0 25px rgba(255,0,60,0.5); transition: 0.3s; margin-top: 10px;
-}
-.cyber-modal-btn:hover { box-shadow: 0 0 35px rgba(255,0,60,0.8); }
-.close-modal-x { position: absolute; right: 20px; top: 20px; cursor: pointer; color: var(--muted); font: 900 18px monospace; }
 
 @keyframes pulse{50%{transform:scale(1.07);opacity:.65}}
 @media(max-width:850px){
@@ -436,56 +389,13 @@ footer p{color:#5f6b79;margin-top:8px}
 <li><a href="#products" data-page="products">PRODUCTS</a></li>
 <li><a href="#about" data-page="about">ABOUT</a></li>
 <li><a href="#contact" data-page="contact">CONTACT US</a></li>
+<li><a href="#cart" class="header-cart-link" data-page="cart">🛒 CART <span id="cart-count-bubble" class="cart-count-bubble">0</span></a></li>
 </ul>
 <a class="signin" id="nav-auth" href="#signin" data-page="signin">SIGN IN</a>
 </nav>
 </header>
 
 <main id="app"></main>
-
-<!-- CHECKOUT / BILLING MODAL WITH GPAY/PHONEPE & SECURITY VERIFICATION -->
-<div class="cyber-modal-overlay" id="cyber-buy-modal">
-  <div class="cyber-modal-card">
-    <span class="close-modal-x" onclick="closeCyberBuyModal()">✕</span>
-    <div class="cyber-modal-tag">⚡ BILLING & CHECKOUT ⚡</div>
-    <div class="cyber-modal-title">ORDER PRODUCT</div>
-    <div class="cyber-modal-sub">Enter customer details and proceed via Google Pay / PhonePe UPI:</div>
-    
-    <div class="checkout-summary">
-      <div class="checkout-line"><span>SELECTED PRODUCT:</span><strong id="buy-prod-title">CareAlerter</strong></div>
-      <div class="checkout-line"><span>BASE PRICE:</span><span id="buy-prod-base">₹999.00</span></div>
-      <div class="checkout-line"><span>GST (8%):</span><span id="buy-prod-gst">₹79.92</span></div>
-      <div class="checkout-line total"><span>TOTAL AMOUNT:</span><span id="buy-prod-price">₹1078.92</span></div>
-    </div>
-
-    <form id="order-form" onsubmit="handleOrderSubmission(event)">
-      <div class="form-group">
-        <label>// CUSTOMER NAME</label>
-        <input type="text" id="cust-name" placeholder="Full Name" required>
-      </div>
-      <div class="form-group">
-        <label>// EMAIL ADDRESS</label>
-        <input type="email" id="cust-email" placeholder="cortexfusionx@gmail.com" required>
-      </div>
-      <div class="form-group">
-        <label>// PHONE NUMBER</label>
-        <input type="tel" id="cust-phone" placeholder="+91 7206789580" required>
-      </div>
-      <div class="form-group">
-        <label>// DELIVERY ADDRESS</label>
-        <textarea id="cust-address" rows="2" placeholder="Enter complete billing/shipping address..." required></textarea>
-      </div>
-
-      <div style="font: 800 11px monospace; color: var(--cyan); margin-top: 15px;">// PAYMENT METHOD (SELECT TO PROCEED)</div>
-      <div class="upi-gateways">
-        <button type="button" id="gpay-btn" class="upi-btn" onclick="selectPaymentGateway('Google Pay')">🔵 Google Pay</button>
-        <button type="button" id="phonepe-btn" class="upi-btn" onclick="selectPaymentGateway('PhonePe')">🟣 PhonePe</button>
-      </div>
-
-      <button type="submit" class="cyber-modal-btn" id="submit-order-btn">CONFIRM ORDER & VERIFY PASSWORD →</button>
-    </form>
-  </div>
-</div>
 
 <div class="toast" id="toast"></div>
 
@@ -506,119 +416,78 @@ footer p{color:#5f6b79;margin-top:8px}
 
 <script>
 /* -------------------------------------------------------------
-   SUPABASE CONFIGURATION & ORDER PROCESSING
+   SUPABASE CONFIGURATION & CART MANAGEMENT SYSTEM
 ------------------------------------------------------------- */
 const SUPABASE_URL = "https://mbmzielprlrmqslrpyac.supabase.co";
 const SUPABASE_KEY = "sb_publishable_T_JGvoJDW3PPSckt35nC-g_knQEHYx6";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let activeOrder = { title: "CareAlerter", basePrice: 999, totalAmount: 1078.92, gstAmount: 79.92 };
-let selectedPaymentMethod = null;
+// Persistent Cart Store in localStorage
+let cart = JSON.parse(localStorage.getItem("cortexfusionx_cart") || "[]");
 
-function triggerBuyPopup(e, name = "CareAlerter", basePrice = 999){
-  if(e) e.preventDefault();
+function saveCart() {
+  localStorage.setItem("cortexfusionx_cart", JSON.stringify(cart));
+  updateCartBadge();
+}
 
-  const user = getUser();
-  if(!user || !user.loggedIn){
-    toast("PLEASE SIGN IN TO BUY PRODUCTS");
-    location.hash = "#signin";
+function updateCartBadge() {
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const badge = document.getElementById("cart-count-bubble");
+  if(badge) badge.textContent = totalItems;
+}
+
+function addToCart(name, basePrice) {
+  const existing = cart.find(item => item.name === name);
+  if(existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ name: name, basePrice: basePrice, quantity: 1 });
+  }
+  saveCart();
+  toast(`ADDED "${name.toUpperCase()}" TO CART!`);
+  if(location.hash === "#cart") route();
+}
+
+function updateQuantity(name, delta) {
+  const item = cart.find(i => i.name === name);
+  if(item) {
+    item.quantity += delta;
+    if(item.quantity <= 0) {
+      cart = cart.filter(i => i.name !== name);
+    }
+  }
+  saveCart();
+  route();
+}
+
+function removeFromCart(name) {
+  cart = cart.filter(i => i.name !== name);
+  saveCart();
+  toast(`REMOVED ITEM FROM CART`);
+  route();
+}
+
+function handleContinueToPurchase() {
+  if(cart.length === 0) {
+    toast("YOUR CART IS EMPTY!");
     return;
   }
 
-  const gst = basePrice * 0.08;
-  const total = basePrice + gst;
+  let totalAmount = cart.reduce((sum, item) => sum + (item.basePrice * 1.08 * item.quantity), 0);
+  let orderSummaryText = cart.map(i => `${i.quantity}x ${i.name} (₹${(i.basePrice * 1.08).toFixed(2)} ea)`).join(', ');
 
-  activeOrder = {
-    title: name,
-    basePrice: basePrice,
-    gstAmount: gst,
-    totalAmount: total
-  };
+  // Check if mobile or laptop/desktop device
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-  selectedPaymentMethod = null;
-  document.getElementById("gpay-btn").classList.remove("selected");
-  document.getElementById("phonepe-btn").classList.remove("selected");
-  
-  document.getElementById("buy-prod-title").textContent = name;
-  document.getElementById("buy-prod-base").textContent = "₹" + basePrice.toFixed(2);
-  document.getElementById("buy-prod-gst").textContent = "₹" + gst.toFixed(2);
-  document.getElementById("buy-prod-price").textContent = "₹" + total.toFixed(2);
-  
-  document.getElementById("cust-name").value = user.username || "";
-  document.getElementById("cust-email").value = user.email || "";
-  document.getElementById("cust-phone").value = user.phone || "";
-  
-  document.getElementById("cyber-buy-modal").style.display = "flex";
-}
-
-function selectPaymentGateway(gateway){
-  selectedPaymentMethod = gateway;
-  document.getElementById("gpay-btn").classList.toggle("selected", gateway === 'Google Pay');
-  document.getElementById("phonepe-btn").classList.toggle("selected", gateway === 'PhonePe');
-  toast("SELECTED GATEWAY: " + gateway.toUpperCase());
-}
-
-function closeCyberBuyModal(){
-  document.getElementById("cyber-buy-modal").style.display = "none";
-}
-
-async function handleOrderSubmission(event){
-  event.preventDefault();
-  
-  if(!selectedPaymentMethod){
-    toast("PLEASE SELECT GOOGLE PAY OR PHONEPE TO PROCEED");
-    return;
+  if (isMobile) {
+    toast("REDIRECTING TO CALL 7206789580...");
+    window.location.href = "tel:7206789580";[cite: 3]
+  } else {
+    toast("OPENING EMAIL CLIENT FOR DEADXGAMING42@GMAIL.COM...");
+    const emailSubject = encodeURIComponent("New Project Order - Cortex Fusion X");
+    const emailBody = encodeURIComponent(`Hello Team,\n\nI want to purchase the following items from my Cart:\n${orderSummaryText}\n\nTotal Amount (incl. 8% GST): ₹${totalAmount.toFixed(2)}\n\nPlease process my order.`);
+    window.location.href = `mailto:deadxgaming42@gmail.com?subject=${emailSubject}&body=${emailBody}`;[cite: 3]
   }
-
-  const passPrompt = prompt("SECURITY VERIFICATION REQUIRED\nEnter Authorization Password to access QR Code & Complete Order:");
-  
-  if(passPrompt !== "qrcode@1"){
-    alert("INVALID AUTHORIZATION PASSWORD. PURCHASE DENIED.");
-    return;
-  }
-
-  const name = document.getElementById("cust-name").value;
-  const email = document.getElementById("cust-email").value;
-  const phone = document.getElementById("cust-phone").value;
-  const address = document.getElementById("cust-address").value;
-  const submitBtn = document.getElementById("submit-order-btn");
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = "PROCESSING ORDER...";
-
-  const templateParams = {
-    to_email: 'cortexfusionx@gmail.com',
-    customer_name: name,
-    customer_email: email,
-    customer_phone: phone,
-    customer_address: address,
-    product_title: activeOrder.title,
-    base_price: activeOrder.basePrice.toFixed(2),
-    gst_amount: activeOrder.gstAmount.toFixed(2),
-    total_amount: activeOrder.totalAmount.toFixed(2),
-    payment_method: selectedPaymentMethod
-  };
-
-  toast("SENDING ORDER DETAILS TO CORTEXFUSIONX@GMAIL.COM...");
-
-  try {
-    // Replace YOUR_SERVICE_ID & YOUR_TEMPLATE_ID with your valid EmailJS IDs
-    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
-    toast("ORDER DETAILS SENT TO CORTEXFUSIONX@GMAIL.COM!");
-  } catch (err) {
-    console.error("EmailJS dispatch error:", err);
-    toast("API ERROR: PLEASE CONFIGURE YOUR EMAILJS SERVICE & TEMPLATE ID");
-  }
-
-  submitBtn.disabled = false;
-  submitBtn.textContent = "CONFIRM ORDER & VERIFY PASSWORD →";
-
-  // Trigger UPI app direct payment interface without opening mail applications
-  const upiId = "7206789580@upi";
-  const upiLink = `upi://pay?pa=${upiId}&pn=CortexFusionX&am=${activeOrder.totalAmount.toFixed(2)}&cu=INR&tn=Order_${encodeURIComponent(activeOrder.title)}`;
-  window.location.href = upiLink;
-
-  closeCyberBuyModal();
 }
 
 const pages = {
@@ -671,6 +540,15 @@ products: `
 <div class="products" id="all-products-container">
   <p style="color:var(--muted);text-align:center;">Loading products...</p>
 </div>
+</div>`,
+
+cart: `
+<div class="page">
+<div class="tag">CORTEX FUSION X // SHOPPING CART</div>
+<h1>Your <span>Cart.</span></h1>
+<p class="intro">Review your selected projects, adjust quantities, and proceed to direct purchase.</p>
+
+<div id="cart-content-area"></div>
 </div>`,
 
 about: `
@@ -842,7 +720,7 @@ carealert: `
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a>
-      <button class="btn primary" onclick="triggerBuyPopup(event, 'CareAlerter', 999)">BUY NOW</button>
+      <button class="btn primary" onclick="addToCart('CareAlerter', 999)">ADD TO CART</button>
     </div>
   </div>
 </div>
@@ -952,7 +830,7 @@ aerorescue: `
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a>
-      <button class="btn primary" onclick="triggerBuyPopup(event, 'AeroRescue AI', 500)">BUY PRODUCT</button>
+      <button class="btn primary" onclick="addToCart('AeroRescue AI', 500)">ADD TO CART</button>
     </div>
   </div>
 </div>
@@ -1061,7 +939,7 @@ async function loadLiveProducts(targetContainerId) {
           <p>An Intelligent Emergency Alert System designed to identify emergency situations.</p>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
             <a class="card-link" href="#carealert">VIEW MODULE →</a>
-            <button class="btn primary" onclick="triggerBuyPopup(event, 'CareAlerter', 999)" style="padding:6px 12px;font-size:11px;">BUY PRODUCT</button>
+            <button class="btn primary" onclick="addToCart('CareAlerter', 999)" style="padding:6px 12px;font-size:11px;">ADD TO CART</button>
           </div>
         </div>
       </article>
@@ -1075,7 +953,7 @@ async function loadLiveProducts(targetContainerId) {
           <p>AeroRescue AI - An Intelligent Aerospace Rescue System powered by YOLO AI and Computer Vision.</p>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
             <a class="card-link" href="#aerorescue">VIEW MODULE →</a>
-            <button class="btn primary" onclick="triggerBuyPopup(event, 'AeroRescue AI', 500)" style="padding:6px 12px;font-size:11px;">BUY PRODUCT</button>
+            <button class="btn primary" onclick="addToCart('AeroRescue AI', 500)" style="padding:6px 12px;font-size:11px;">ADD TO CART</button>
           </div>
         </div>
       </article>`;
@@ -1095,7 +973,7 @@ async function loadLiveProducts(targetContainerId) {
             <p>${esc(item.description) || 'Advanced Cortex Fusion X engineering product.'}</p>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
               <a class="card-link" href="${esc(targetLink)}">VIEW MODULE →</a>
-              <button class="btn primary" onclick="triggerBuyPopup(event, '${esc(item.title)}', ${itemPrice})" style="padding:6px 12px;font-size:11px;">BUY PRODUCT</button>
+              <button class="btn primary" onclick="addToCart('${esc(item.title)}', ${itemPrice})" style="padding:6px 12px;font-size:11px;">ADD TO CART</button>
             </div>
           </div>
         </article>`;
@@ -1107,6 +985,55 @@ async function loadLiveProducts(targetContainerId) {
   } catch (err) {
     console.error("Supabase fetch error:", err);
   }
+}
+
+function loadCartPage() {
+  const container = document.getElementById("cart-content-area");
+  if(!container) return;
+
+  if(cart.length === 0) {
+    container.innerHTML = `
+      <div class="info" style="text-align:center;padding:50px;">
+        <h2 style="color:var(--muted);margin-bottom:15px;">YOUR CART IS CURRENTLY EMPTY</h2>
+        <p style="margin-bottom:20px;">Explore our products and add projects to your cart.</p>
+        <a class="btn primary" href="#products">EXPLORE PRODUCTS →</a>
+      </div>`;
+    return;
+  }
+
+  let subtotal = 0;
+  let itemsHTML = cart.map(item => {
+    let itemTotal = (item.basePrice * 1.08) * item.quantity;
+    subtotal += itemTotal;
+    return `
+      <div class="info" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:15px;">
+        <div>
+          <h3 style="color:#fff;margin-bottom:4px;">${esc(item.name)}</h3>
+          <p style="color:var(--green);font:800 13px monospace;">Base Price: ₹${item.basePrice.toFixed(2)} (+8% GST)</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:15px;">
+          <div style="display:flex;align-items:center;gap:8px;background:#020509;border:1px solid var(--cyan);padding:4px 10px;border-radius:6px;">
+            <button onclick="updateQuantity('${esc(item.name)}', -1)" style="background:transparent;border:none;color:var(--cyan);font-weight:900;cursor:pointer;font-size:16px;">-</button>
+            <span style="font:900 14px monospace;color:#fff;min-width:20px;text-align:center;">${item.quantity}</span>
+            <button onclick="updateQuantity('${esc(item.name)}', 1)" style="background:transparent;border:none;color:var(--cyan);font-weight:900;cursor:pointer;font-size:16px;">+</button>
+          </div>
+          <div style="font:900 16px monospace;color:var(--green);min-width:90px;text-align:right;">₹${itemTotal.toFixed(2)}</div>
+          <button onclick="removeFromCart('${esc(item.name)}')" class="btn secondary" style="padding:6px 12px;font-size:11px;border-color:var(--red);color:var(--red);">REMOVE</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <div>${itemsHTML}</div>
+    <div class="info" style="margin-top:30px;border-color:var(--cyan);background:linear-gradient(145deg,rgba(0,234,255,0.05),rgba(16,22,31,0.92));">
+      <div style="display:flex;justify-content:space-between;font:900 20px monospace;margin-bottom:20px;">
+        <span>TOTAL ORDER AMOUNT (INC. GST):</span>
+        <span style="color:var(--green);">₹${subtotal.toFixed(2)}</span>
+      </div>
+      <button onclick="handleContinueToPurchase()" class="btn primary" style="width:100%;padding:16px;font-size:15px;letter-spacing:1px;">CONTINUE TO PURCHASE →</button>
+    </div>
+  `;
 }
 
 function route(){
@@ -1147,6 +1074,7 @@ function route(){
     }
   }
   if(p==="products") loadLiveProducts('all-products-container');
+  if(p==="cart") loadCartPage();
   if(p==="signin") setupLogin();
   if(p==="profile") setupProfile();
 }
@@ -1244,6 +1172,7 @@ function updateNav(){
   const a=document.getElementById("nav-auth"),u=getUser();
   if(!a)return;
   if(u&&u.loggedIn){a.href="#profile";a.dataset.page="profile";a.textContent="PROFILE";}else{a.href="#signin";a.dataset.page="signin";a.textContent="SIGN IN";}
+  updateCartBadge();
 }
 window.addEventListener("hashchange",updateNav);
 route();updateNav();
