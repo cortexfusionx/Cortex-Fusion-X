@@ -11,6 +11,14 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
+<!-- EMAILJS INITIALIZATION -->
+<script>
+  (function(){
+      // Replace YOUR_PUBLIC_KEY with your actual EmailJS Public Key
+      emailjs.init("YOUR_PUBLIC_KEY");
+  })();
+</script>
+
 <style>
 :root{
   --bg:#030507;
@@ -578,29 +586,47 @@ async function handleOrderSubmission(e){
   const phone = document.getElementById("cust-phone").value;
   const address = document.getElementById("cust-address").value;
   
-  // RULE 2: DISPATCH DETAILS TO cortexfusionx@gmail.com
-  const mailSubject = `NEW PURCHASE ORDER: ${activeOrder.title} (₹${activeOrder.totalAmount.toFixed(2)})`;
-  const mailBody = `NEW VERIFIED ORDER RECEIVED FOR CORTEX FUSION X:\n\n` +
-                   `Product: ${activeOrder.title}\n` +
-                   `Base Price: ₹${activeOrder.basePrice.toFixed(2)}\n` +
-                   `GST Applied (8%): ₹${activeOrder.gstAmount.toFixed(2)}\n` +
-                   `Total Amount: ₹${activeOrder.totalAmount.toFixed(2)}\n` +
-                   `Payment Method Selected: ${selectedPaymentMethod}\n\n` +
-                   `CUSTOMER DETAILS:\n` +
-                   `Name: ${name}\n` +
-                   `Email: ${email}\n` +
-                   `Phone: ${phone}\n` +
-                   `Address:\n${address}`;
+  // EmailJS Direct Automatic Background Email Parameters
+  const templateParams = {
+    to_email: 'cortexfusionx@gmail.com',
+    customer_name: name,
+    customer_email: email,
+    customer_phone: phone,
+    customer_address: address,
+    product_title: activeOrder.title,
+    base_price: activeOrder.basePrice.toFixed(2),
+    gst_amount: activeOrder.gstAmount.toFixed(2),
+    total_amount: activeOrder.totalAmount.toFixed(2),
+    payment_method: selectedPaymentMethod
+  };
 
-  // Launch automatic dispatch to cortexfusionx@gmail.com
-  window.open(`mailto:cortexfusionx@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`);
+  toast("SENDING ORDER DETAILS TO CORTEXFUSIONX@GMAIL.COM...");
+
+  // Send Email via EmailJS Service
+  try {
+    // Replace YOUR_SERVICE_ID & YOUR_TEMPLATE_ID with your EmailJS credentials
+    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+    toast("PASSWORD VERIFIED // ORDER SENT TO CORTEXFUSIONX@GMAIL.COM");
+  } catch (err) {
+    console.error("EmailJS Error:", err);
+    // Fallback: Mailto trigger if EmailJS fails or keys are unconfigured
+    const mailSubject = `NEW PURCHASE ORDER: ${activeOrder.title} (₹${activeOrder.totalAmount.toFixed(2)})`;
+    const mailBody = `NEW VERIFIED ORDER RECEIVED FOR CORTEX FUSION X:\n\n` +
+                     `Product: ${activeOrder.title}\n` +
+                     `Base Price: ₹${activeOrder.basePrice.toFixed(2)}\n` +
+                     `GST (8%): ₹${activeOrder.gstAmount.toFixed(2)}\n` +
+                     `Total Amount: ₹${activeOrder.totalAmount.toFixed(2)}\n` +
+                     `Payment Method: ${selectedPaymentMethod}\n\n` +
+                     `CUSTOMER DETAILS:\n` +
+                     `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress:\n${address}`;
+    window.location.href = `mailto:cortexfusionx@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+  }
 
   // Direct UPI App Deep Link Activation post-verification
   const upiId = "7206789580@upi";
   const upiLink = `upi://pay?pa=${upiId}&pn=CortexFusionX&am=${activeOrder.totalAmount.toFixed(2)}&cu=INR&tn=Order_${encodeURIComponent(activeOrder.title)}`;
   window.location.href = upiLink;
 
-  toast("PASSWORD VERIFIED // ORDER SENT TO CORTEXFUSIONX@GMAIL.COM");
   closeCyberBuyModal();
 }
 
