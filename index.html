@@ -197,19 +197,19 @@ footer p{color:#5f6b79;margin-top:8px}
 
 .toast{position:fixed;right:20px;bottom:20px;z-index:3000;background:#081018;border:1px solid var(--cyan);color:var(--cyan);padding:14px 18px;border-radius:7px;box-shadow:0 0 25px rgba(0,234,255,.18);font:700 13px monospace;display:none}
 
-/* CYBER SHOPPING CART MODAL */
+/* FLIPKART STYLE CART & CHECKOUT MODAL */
 .cyber-modal-overlay {
   position: fixed; inset: 0; z-index: 9999;
   background: rgba(3, 5, 7, 0.92); backdrop-filter: blur(14px);
-  display: none; align-items: center; justify-content: center; padding: 20px;
+  display: none; align-items: center; justify-content: center; padding: 15px;
   overflow-y: auto;
 }
 .cyber-modal-card {
-  max-width: 580px; width: 100%; padding: 30px;
+  max-width: 900px; width: 100%; padding: 25px;
   background: linear-gradient(145deg, rgba(16,22,31,0.98), rgba(5,8,12,0.98));
   border: 1.5px solid var(--cyan); border-radius: 20px;
   box-shadow: 0 0 60px rgba(0,234,255,0.35); text-align: left; position: relative;
-  max-height: 90vh; overflow-y: auto;
+  max-height: 92vh; overflow-y: auto;
 }
 .cyber-modal-tag {
   display: inline-block; font: 800 11px monospace; letter-spacing: 2px;
@@ -219,37 +219,58 @@ footer p{color:#5f6b79;margin-top:8px}
 .cyber-modal-title { font: 950 22px monospace; color: #fff; letter-spacing: 1.5px; margin-bottom: 6px; }
 .cyber-modal-sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
 
-.cart-items-list {
-  max-height: 250px; overflow-y: auto; margin-bottom: 15px; border: 1px solid rgba(0,234,255,0.15); border-radius: 10px; padding: 10px;
+.cart-layout-grid {
+  display: grid; grid-template-columns: 1fr 340px; gap: 20px;
 }
-.cart-item-row {
-  display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px;
+@media(max-width: 768px) {
+  .cart-layout-grid { grid-template-columns: 1fr; }
 }
-.cart-item-row:last-child { border-bottom: none; }
-.cart-item-title { font-weight: bold; color: #fff; }
-.cart-item-details { color: var(--muted); font-family: monospace; }
-.cart-item-remove { color: var(--red); cursor: pointer; font-weight: bold; margin-left: 10px; }
 
-.checkout-summary {
-  background: rgba(0,234,255,0.04); border: 1px dashed var(--cyan);
-  border-radius: 10px; padding: 14px; margin-bottom: 18px;
+.cart-items-column {
+  max-height: 380px; overflow-y: auto; padding-right: 5px;
 }
-.checkout-line { display: flex; justify-content: space-between; font: 14px monospace; margin-bottom: 6px; }
-.checkout-line.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; font-weight: 900; color: var(--green); font-size: 16px; }
+.cart-flipkart-card {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 12px;
+}
+.cart-item-top {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+}
+.cart-item-title { font-weight: 900; color: #fff; font-size: 15px; }
+.cart-item-price { font-weight: 900; color: var(--green); font-size: 15px; margin-top: 4px; }
+.cart-item-actions {
+  display: flex; gap: 15px; align-items: center; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px; font-size: 13px;
+}
+.cart-action-btn {
+  background: none; border: none; color: var(--muted); cursor: pointer; font-weight: 700; transition: 0.2s;
+}
+.cart-action-btn:hover { color: var(--red); }
+.qty-select {
+  background: #020509; border: 1px solid rgba(0,234,255,0.3); color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: bold; outline: none;
+}
 
-.form-group { margin-bottom: 12px; }
-.form-group label { display: block; font: 800 11px monospace; color: var(--muted); margin-bottom: 5px; }
+/* RIGHT SUMMARY & DELIVERY BOX */
+.checkout-sidebar {
+  background: rgba(0,234,255,0.03); border: 1px solid rgba(0,234,255,0.2);
+  border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; height: fit-content;
+}
+.checkout-summary-title { font: 900 13px monospace; color: var(--cyan); letter-spacing: 1px; border-bottom: 1px solid rgba(0,234,255,0.2); padding-bottom: 6px; }
+.checkout-line { display: flex; justify-content: space-between; font: 13px monospace; }
+.checkout-line.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; font-weight: 900; color: var(--green); font-size: 15px; }
+
+.form-group { margin-bottom: 10px; }
+.form-group label { display: block; font: 800 10px monospace; color: var(--muted); margin-bottom: 4px; }
 .form-group input, .form-group textarea {
   width: 100%; background: #020509; border: 1px solid rgba(0,234,255,0.3);
-  color: #fff; padding: 10px; border-radius: 6px; outline: none; font-size: 13px;
+  color: #fff; padding: 8px 10px; border-radius: 6px; outline: none; font-size: 12px;
 }
 .form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,234,255,0.3); }
 
 .cyber-modal-btn {
-  width: 100%; padding: 14px; border: none; border-radius: 8px;
+  width: 100%; padding: 12px; border: none; border-radius: 8px;
   background: linear-gradient(135deg, var(--red2), #80001d);
   color: #fff; font: 900 13px monospace; letter-spacing: 1.5px;
-  cursor: pointer; box-shadow: 0 0 25px rgba(255,0,60,0.5); transition: 0.3s; margin-top: 10px;
+  cursor: pointer; box-shadow: 0 0 25px rgba(255,0,60,0.5); transition: 0.3s; margin-top: 5px; text-align: center;
 }
 .cyber-modal-btn:hover { box-shadow: 0 0 35px rgba(255,0,60,0.8); }
 .close-modal-x { position: absolute; right: 20px; top: 20px; cursor: pointer; color: var(--muted); font: 900 18px monospace; }
@@ -458,44 +479,50 @@ footer p{color:#5f6b79;margin-top:8px}
 
 <main id="app"></main>
 
-<!-- SHOPPING CART & CHECKOUT MODAL -->
+<!-- SHOPPING CART & FLIPKART STYLE DELIVERY CHECKOUT MODAL -->
 <div class="cyber-modal-overlay" id="cyber-buy-modal">
   <div class="cyber-modal-card">
     <span class="close-modal-x" onclick="closeCyberBuyModal()">✕</span>
-    <div class="cyber-modal-tag">⚡ SHOPPING CART & CHECKOUT ⚡</div>
-    <div class="cyber-modal-title">YOUR CART</div>
-    <div class="cyber-modal-sub">Review your selected projects, quantities, and pricing:</div>
+    <div class="cyber-modal-tag">⚡ FLIPKART STYLE CART & CHECKOUT ⚡</div>
+    <div class="cyber-modal-title">YOUR SHOPPING CART</div>
+    <div class="cyber-modal-sub">Manage your items, update quantities, and enter delivery details below:</div>
     
-    <div class="cart-items-list" id="cart-items-container">
-      <div style="color: var(--muted); text-align: center; padding: 20px;">Your cart is empty.</div>
+    <div class="cart-layout-grid">
+      <!-- Left Column: Cart Items List -->
+      <div class="cart-items-column" id="cart-items-container">
+        <div style="color: var(--muted); text-align: center; padding: 20px;">Your cart is empty.</div>
+      </div>
+
+      <!-- Right Column: Summary & Delivery Boxes -->
+      <div class="checkout-sidebar">
+        <div class="checkout-summary-title">// PRICE DETAILS</div>
+        <div class="checkout-line"><span>Subtotal:</span><span id="cart-subtotal">₹0.00</span></div>
+        <div class="checkout-line"><span>GST (8%):</span><span id="cart-gst">₹0.00</span></div>
+        <div class="checkout-line total"><span>Total Amount:</span><span id="cart-total">₹0.00</span></div>
+
+        <div class="checkout-summary-title" style="margin-top: 5px;">// DELIVERY DETAILS</div>
+        <form id="order-form" onsubmit="handleCartCheckout(event)">
+          <div class="form-group">
+            <label>CUSTOMER NAME</label>
+            <input type="text" id="cust-name" placeholder="Full Name" required>
+          </div>
+          <div class="form-group">
+            <label>EMAIL ADDRESS</label>
+            <input type="email" id="cust-email" placeholder="cortexfusionx@gmail.com" required>
+          </div>
+          <div class="form-group">
+            <label>PHONE NUMBER</label>
+            <input type="tel" id="cust-phone" placeholder="+91 7206789580" required>
+          </div>
+          <div class="form-group">
+            <label>SHIPPING ADDRESS / NOTES</label>
+            <textarea id="cust-address" rows="2" placeholder="Street, City, Pincode..." required></textarea>
+          </div>
+
+          <button type="submit" class="cyber-modal-btn" id="submit-order-btn">CONTINUE TO PURCHASE →</button>
+        </form>
+      </div>
     </div>
-
-    <div class="checkout-summary">
-      <div class="checkout-line"><span>SUBTOTAL:</span><span id="cart-subtotal">₹0.00</span></div>
-      <div class="checkout-line"><span>GST (8%):</span><span id="cart-gst">₹0.00</span></div>
-      <div class="checkout-line total"><span>TOTAL AMOUNT:</span><span id="cart-total">₹0.00</span></div>
-    </div>
-
-    <form id="order-form" onsubmit="handleCartCheckout(event)">
-      <div class="form-group">
-        <label>// CUSTOMER NAME</label>
-        <input type="text" id="cust-name" placeholder="Full Name" required>
-      </div>
-      <div class="form-group">
-        <label>// EMAIL ADDRESS</label>
-        <input type="email" id="cust-email" placeholder="cortexfusionx@gmail.com" required>
-      </div>
-      <div class="form-group">
-        <label>// PHONE NUMBER</label>
-        <input type="tel" id="cust-phone" placeholder="+91 7206789580" required>
-      </div>
-      <div class="form-group">
-        <label>// DELIVERY / PROJECT NOTES</label>
-        <textarea id="cust-address" rows="2" placeholder="Enter complete billing/shipping notes..." required></textarea>
-      </div>
-
-      <button type="submit" class="cyber-modal-btn" id="submit-order-btn">CONTINUE TO PURCHASE →</button>
-    </form>
   </div>
 </div>
 
@@ -548,6 +575,17 @@ function addToCart(name, basePrice) {
   toast("ADDED TO CART: " + name);
 }
 
+function updateCartItemQty(index, newQty) {
+  let qty = parseInt(newQty);
+  if (qty > 0) {
+    cart[index].quantity = qty;
+  } else {
+    cart.splice(index, 1);
+  }
+  saveCart();
+  renderCartModalItems();
+}
+
 function removeFromCart(index) {
   cart.splice(index, 1);
   saveCart();
@@ -584,7 +622,7 @@ function renderCartModalItems() {
   if (!container) return;
 
   if (cart.length === 0) {
-    container.innerHTML = `<div style="color: var(--muted); text-align: center; padding: 20px;">Your cart is empty.</div>`;
+    container.innerHTML = `<div style="color: var(--muted); text-align: center; padding: 30px;">Your cart is empty.</div>`;
     if (subtotalEl) subtotalEl.textContent = "₹0.00";
     if (gstEl) gstEl.textContent = "₹0.00";
     if (totalEl) totalEl.textContent = "₹0.00";
@@ -596,12 +634,27 @@ function renderCartModalItems() {
     let itemTotal = item.basePrice * item.quantity;
     subtotal += itemTotal;
     return `
-      <div class="cart-item-row">
-        <div>
-          <div class="cart-item-title">${esc(item.name)}</div>
-          <div class="cart-item-details">Qty: ${item.quantity} × ₹${item.basePrice.toFixed(2)} = ₹${itemTotal.toFixed(2)}</div>
+      <div class="cart-flipkart-card">
+        <div class="cart-item-top">
+          <div>
+            <div class="cart-item-title">${esc(item.name)}</div>
+            <div class="cart-item-price">₹${item.basePrice.toFixed(2)}</div>
+          </div>
+          <div style="font-size: 12px; color: var(--cyan);">Delivery by Aug 9</div>
         </div>
-        <span class="cart-item-remove" onclick="removeFromCart(${index})">[REMOVE]</span>
+        <div class="cart-item-actions">
+          <div>
+            <label style="font-size: 10px; color: var(--muted);">Qty: </label>
+            <select class="qty-select" onchange="updateCartItemQty(${index}, this.value)">
+              <option value="1" ${item.quantity === 1 ? 'selected' : ''}>1</option>
+              <option value="2" ${item.quantity === 2 ? 'selected' : ''}>2</option>
+              <option value="3" ${item.quantity === 3 ? 'selected' : ''}>3</option>
+              <option value="4" ${item.quantity === 4 ? 'selected' : ''}>4</option>
+              <option value="5" ${item.quantity === 5 ? 'selected' : ''}>5</option>
+            </select>
+          </div>
+          <button class="cart-action-btn" onclick="removeFromCart(${index})">Remove</button>
+        </div>
       </div>
     `;
   }).join('');
@@ -663,7 +716,6 @@ async function handleCartCheckout(event){
   submitBtn.textContent = "CONTINUE TO PURCHASE →";
   closeCyberBuyModal();
 
-  // Check if mobile device or desktop
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (isMobile) {
