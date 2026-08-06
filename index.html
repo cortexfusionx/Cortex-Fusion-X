@@ -9,11 +9,13 @@
 <title>CORTEX FUSION X // Engineering Tomorrow</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <!-- EMAILJS INITIALIZATION -->
-<script>
+<script type="text/javascript">
   (function(){
+      // Apni EmailJS Public Key yahan daalein
       emailjs.init("YOUR_PUBLIC_KEY");
   })();
 </script>
@@ -90,7 +92,7 @@ nav{
   100% { box-shadow: 0 0 25px rgba(255,0,60,0.9), 0 0 10px var(--cyan); }
 }
 
-.nav-links{ display:flex; gap:27px; list-style:none; margin: 0 auto; align-items: center; }
+.nav-links{ display:flex; gap:27px; list-style:none; margin: 0 auto; }
 .nav-links a{color:#b8c1cc;text-decoration:none;font-size:13px;letter-spacing:1px;transition:.25s}
 .nav-links a:hover{color:var(--cyan);text-shadow:0 0 12px rgba(0,234,255,.5)}
 .signin,.btn{
@@ -101,14 +103,14 @@ nav{
 }
 .signin:hover,.primary:hover{background:var(--red);box-shadow:0 0 28px rgba(255,0,55,.45);transform:translateY(-2px)}
 
-/* HEADER CART BADGE */
-.header-cart-link {
-  display: flex; align-items: center; gap: 6px; font: 800 12px monospace; color: var(--cyan);
-  background: rgba(0,234,255,0.08); border: 1px solid rgba(0,234,255,0.3); padding: 6px 12px; border-radius: 20px;
-  text-decoration: none; transition: 0.2s;
+/* HEADER CART ICON */
+.header-cart-btn {
+  background: rgba(0,234,255,0.08); border: 1px solid var(--cyan); color: var(--cyan);
+  padding: 10px 16px; border-radius: 7px; cursor: pointer; font-weight: 800;
+  display: inline-flex; align-items: center; gap: 8px; transition: 0.25s; text-decoration: none;
+  font-size: 13px; letter-spacing: 0.6px; margin-right: 10px;
 }
-.header-cart-link:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px rgba(0,234,255,0.4); }
-.cart-count-bubble { background: var(--red); color: #fff; padding: 1px 6px; border-radius: 10px; font-size: 10px; }
+.header-cart-btn:hover { background: var(--cyan); color: #000; box-shadow: 0 0 20px rgba(0,234,255,0.4); }
 
 .founder-hero-badge {
   display: inline-flex; align-items: center; gap: 12px; margin: 22px 0; padding: 12px 28px;
@@ -194,6 +196,63 @@ footer p{color:#5f6b79;margin-top:8px}
 .footer-links{display:flex;gap:22px;flex-wrap:wrap}.footer-links a{color:#718092;text-decoration:none}.footer-links a:hover{color:var(--cyan)}
 
 .toast{position:fixed;right:20px;bottom:20px;z-index:3000;background:#081018;border:1px solid var(--cyan);color:var(--cyan);padding:14px 18px;border-radius:7px;box-shadow:0 0 25px rgba(0,234,255,.18);font:700 13px monospace;display:none}
+
+/* CYBER SHOPPING CART MODAL */
+.cyber-modal-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(3, 5, 7, 0.92); backdrop-filter: blur(14px);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+  overflow-y: auto;
+}
+.cyber-modal-card {
+  max-width: 580px; width: 100%; padding: 30px;
+  background: linear-gradient(145deg, rgba(16,22,31,0.98), rgba(5,8,12,0.98));
+  border: 1.5px solid var(--cyan); border-radius: 20px;
+  box-shadow: 0 0 60px rgba(0,234,255,0.35); text-align: left; position: relative;
+  max-height: 90vh; overflow-y: auto;
+}
+.cyber-modal-tag {
+  display: inline-block; font: 800 11px monospace; letter-spacing: 2px;
+  color: var(--cyan); background: rgba(0,234,255,0.08); padding: 5px 14px;
+  border-radius: 20px; border: 1px solid rgba(0,234,255,0.3); margin-bottom: 12px;
+}
+.cyber-modal-title { font: 950 22px monospace; color: #fff; letter-spacing: 1.5px; margin-bottom: 6px; }
+.cyber-modal-sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+
+.cart-items-list {
+  max-height: 250px; overflow-y: auto; margin-bottom: 15px; border: 1px solid rgba(0,234,255,0.15); border-radius: 10px; padding: 10px;
+}
+.cart-item-row {
+  display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px;
+}
+.cart-item-row:last-child { border-bottom: none; }
+.cart-item-title { font-weight: bold; color: #fff; }
+.cart-item-details { color: var(--muted); font-family: monospace; }
+.cart-item-remove { color: var(--red); cursor: pointer; font-weight: bold; margin-left: 10px; }
+
+.checkout-summary {
+  background: rgba(0,234,255,0.04); border: 1px dashed var(--cyan);
+  border-radius: 10px; padding: 14px; margin-bottom: 18px;
+}
+.checkout-line { display: flex; justify-content: space-between; font: 14px monospace; margin-bottom: 6px; }
+.checkout-line.total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; font-weight: 900; color: var(--green); font-size: 16px; }
+
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font: 800 11px monospace; color: var(--muted); margin-bottom: 5px; }
+.form-group input, .form-group textarea {
+  width: 100%; background: #020509; border: 1px solid rgba(0,234,255,0.3);
+  color: #fff; padding: 10px; border-radius: 6px; outline: none; font-size: 13px;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,234,255,0.3); }
+
+.cyber-modal-btn {
+  width: 100%; padding: 14px; border: none; border-radius: 8px;
+  background: linear-gradient(135deg, var(--red2), #80001d);
+  color: #fff; font: 900 13px monospace; letter-spacing: 1.5px;
+  cursor: pointer; box-shadow: 0 0 25px rgba(255,0,60,0.5); transition: 0.3s; margin-top: 10px;
+}
+.cyber-modal-btn:hover { box-shadow: 0 0 35px rgba(255,0,60,0.8); }
+.close-modal-x { position: absolute; right: 20px; top: 20px; cursor: pointer; color: var(--muted); font: 900 18px monospace; }
 
 @keyframes pulse{50%{transform:scale(1.07);opacity:.65}}
 @media(max-width:850px){
@@ -389,13 +448,56 @@ footer p{color:#5f6b79;margin-top:8px}
 <li><a href="#products" data-page="products">PRODUCTS</a></li>
 <li><a href="#about" data-page="about">ABOUT</a></li>
 <li><a href="#contact" data-page="contact">CONTACT US</a></li>
-<li><a href="#cart" class="header-cart-link" data-page="cart">🛒 CART <span id="cart-count-bubble" class="cart-count-bubble">0</span></a></li>
 </ul>
-<a class="signin" id="nav-auth" href="#signin" data-page="signin">SIGN IN</a>
+<div style="display:flex; align-items:center;">
+  <button class="header-cart-btn" onclick="openCartModal()">🛒 CART (<span id="cart-count">0</span>)</button>
+  <a class="signin" id="nav-auth" href="#signin" data-page="signin">SIGN IN</a>
+</div>
 </nav>
 </header>
 
 <main id="app"></main>
+
+<!-- SHOPPING CART & CHECKOUT MODAL -->
+<div class="cyber-modal-overlay" id="cyber-buy-modal">
+  <div class="cyber-modal-card">
+    <span class="close-modal-x" onclick="closeCyberBuyModal()">✕</span>
+    <div class="cyber-modal-tag">⚡ SHOPPING CART & CHECKOUT ⚡</div>
+    <div class="cyber-modal-title">YOUR CART</div>
+    <div class="cyber-modal-sub">Review your selected projects, quantities, and pricing:</div>
+    
+    <div class="cart-items-list" id="cart-items-container">
+      <div style="color: var(--muted); text-align: center; padding: 20px;">Your cart is empty.</div>
+    </div>
+
+    <div class="checkout-summary">
+      <div class="checkout-line"><span>SUBTOTAL:</span><span id="cart-subtotal">₹0.00</span></div>
+      <div class="checkout-line"><span>GST (8%):</span><span id="cart-gst">₹0.00</span></div>
+      <div class="checkout-line total"><span>TOTAL AMOUNT:</span><span id="cart-total">₹0.00</span></div>
+    </div>
+
+    <form id="order-form" onsubmit="handleCartCheckout(event)">
+      <div class="form-group">
+        <label>// CUSTOMER NAME</label>
+        <input type="text" id="cust-name" placeholder="Full Name" required>
+      </div>
+      <div class="form-group">
+        <label>// EMAIL ADDRESS</label>
+        <input type="email" id="cust-email" placeholder="cortexfusionx@gmail.com" required>
+      </div>
+      <div class="form-group">
+        <label>// PHONE NUMBER</label>
+        <input type="tel" id="cust-phone" placeholder="+91 7206789580" required>
+      </div>
+      <div class="form-group">
+        <label>// DELIVERY / PROJECT NOTES</label>
+        <textarea id="cust-address" rows="2" placeholder="Enter complete billing/shipping notes..." required></textarea>
+      </div>
+
+      <button type="submit" class="cyber-modal-btn" id="submit-order-btn">CONTINUE TO PURCHASE →</button>
+    </form>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -416,13 +518,12 @@ footer p{color:#5f6b79;margin-top:8px}
 
 <script>
 /* -------------------------------------------------------------
-   SUPABASE CONFIGURATION & CART MANAGEMENT SYSTEM
+   SUPABASE CONFIGURATION & SHOPPING CART SYSTEM
 ------------------------------------------------------------- */
 const SUPABASE_URL = "https://mbmzielprlrmqslrpyac.supabase.co";
 const SUPABASE_KEY = "sb_publishable_T_JGvoJDW3PPSckt35nC-g_knQEHYx6";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Persistent Cart Store in localStorage
 let cart = JSON.parse(localStorage.getItem("cortexfusionx_cart") || "[]");
 
 function saveCart() {
@@ -431,62 +532,146 @@ function saveCart() {
 }
 
 function updateCartBadge() {
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const badge = document.getElementById("cart-count-bubble");
-  if(badge) badge.textContent = totalItems;
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const badge = document.getElementById("cart-count");
+  if (badge) badge.textContent = count;
 }
 
 function addToCart(name, basePrice) {
   const existing = cart.find(item => item.name === name);
-  if(existing) {
+  if (existing) {
     existing.quantity += 1;
   } else {
-    cart.push({ name: name, basePrice: basePrice, quantity: 1 });
+    cart.push({ name, basePrice, quantity: 1 });
   }
   saveCart();
-  toast(`ADDED "${name.toUpperCase()}" TO CART!`);
-  if(location.hash === "#cart") route();
+  toast("ADDED TO CART: " + name);
 }
 
-function updateQuantity(name, delta) {
-  const item = cart.find(i => i.name === name);
-  if(item) {
-    item.quantity += delta;
-    if(item.quantity <= 0) {
-      cart = cart.filter(i => i.name !== name);
-    }
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  saveCart();
+  renderCartModalItems();
+}
+
+function openCartModal(e) {
+  if (e) e.preventDefault();
+  renderCartModalItems();
+  
+  const user = getUser();
+  if (user && user.loggedIn) {
+    const nameInput = document.getElementById("cust-name");
+    const emailInput = document.getElementById("cust-email");
+    const phoneInput = document.getElementById("cust-phone");
+    if (nameInput && !nameInput.value) nameInput.value = user.username || "";
+    if (emailInput && !emailInput.value) emailInput.value = user.email || "";
+    if (phoneInput && !phoneInput.value) phoneInput.value = user.phone || "";
   }
-  saveCart();
-  route();
+
+  document.getElementById("cyber-buy-modal").style.display = "flex";
 }
 
-function removeFromCart(name) {
-  cart = cart.filter(i => i.name !== name);
-  saveCart();
-  toast(`REMOVED ITEM FROM CART`);
-  route();
+function closeCyberBuyModal() {
+  document.getElementById("cyber-buy-modal").style.display = "none";
 }
 
-function handleContinueToPurchase() {
-  if(cart.length === 0) {
-    toast("YOUR CART IS EMPTY!");
+function renderCartModalItems() {
+  const container = document.getElementById("cart-items-container");
+  const subtotalEl = document.getElementById("cart-subtotal");
+  const gstEl = document.getElementById("cart-gst");
+  const totalEl = document.getElementById("cart-total");
+  
+  if (!container) return;
+
+  if (cart.length === 0) {
+    container.innerHTML = `<div style="color: var(--muted); text-align: center; padding: 20px;">Your cart is empty.</div>`;
+    if (subtotalEl) subtotalEl.textContent = "₹0.00";
+    if (gstEl) gstEl.textContent = "₹0.00";
+    if (totalEl) totalEl.textContent = "₹0.00";
     return;
   }
 
-  let totalAmount = cart.reduce((sum, item) => sum + (item.basePrice * 1.08 * item.quantity), 0);
-  let orderSummaryText = cart.map(i => `${i.quantity}x ${i.name} (₹${(i.basePrice * 1.08).toFixed(2)} ea)`).join(', ');
+  let subtotal = 0;
+  container.innerHTML = cart.map((item, index) => {
+    let itemTotal = item.basePrice * item.quantity;
+    subtotal += itemTotal;
+    return `
+      <div class="cart-item-row">
+        <div>
+          <div class="cart-item-title">${esc(item.name)}</div>
+          <div class="cart-item-details">Qty: ${item.quantity} × ₹${item.basePrice.toFixed(2)} = ₹${itemTotal.toFixed(2)}</div>
+        </div>
+        <span class="cart-item-remove" onclick="removeFromCart(${index})">[REMOVE]</span>
+      </div>
+    `;
+  }).join('');
 
-  // Check if mobile or laptop/desktop device
+  const gst = subtotal * 0.08;
+  const total = subtotal + gst;
+
+  if (subtotalEl) subtotalEl.textContent = "₹" + subtotal.toFixed(2);
+  if (gstEl) gstEl.textContent = "₹" + gst.toFixed(2);
+  if (totalEl) totalEl.textContent = "₹" + total.toFixed(2);
+}
+
+async function handleCartCheckout(event){
+  event.preventDefault();
+  
+  if (cart.length === 0) {
+    toast("YOUR CART IS EMPTY");
+    return;
+  }
+
+  const name = document.getElementById("cust-name").value;
+  const email = document.getElementById("cust-email").value;
+  const phone = document.getElementById("cust-phone").value;
+  const address = document.getElementById("cust-address").value;
+  const submitBtn = document.getElementById("submit-order-btn");
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "PROCESSING...";
+
+  let subtotal = cart.reduce((sum, item) => sum + (item.basePrice * item.quantity), 0);
+  let gst = subtotal * 0.08;
+  let total = subtotal + gst;
+  
+  let cartSummaryText = cart.map(i => `${i.name} (x${i.quantity}) - ₹${(i.basePrice * i.quantity).toFixed(2)}`).join(', ');
+
+  const templateParams = {
+    to_email: 'deadxgaming42@gmail.com',
+    customer_name: name,
+    customer_email: email,
+    customer_phone: phone,
+    customer_address: address,
+    product_title: cartSummaryText,
+    base_price: subtotal.toFixed(2),
+    gst_amount: gst.toFixed(2),
+    total_amount: total.toFixed(2),
+    payment_method: "Direct Purchase / Cart"
+  };
+
+  try {
+    const serviceID = 'service_abc1234';
+    const templateID = 'YOUR_TEMPLATE_ID';
+    await emailjs.send(serviceID, templateID, templateParams);
+    toast("ORDER DETAILS SENT TO DEADXGAMING42@GMAIL.COM");
+  } catch (err) {
+    console.error("EmailJS dispatch error:", err);
+  }
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = "CONTINUE TO PURCHASE →";
+  closeCyberBuyModal();
+
+  // Check if mobile device or desktop
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (isMobile) {
-    toast("REDIRECTING TO CALL 7206789580...");
-    window.location.href = "tel:7206789580";[cite: 3]
+    window.location.href = "tel:7206789580";
   } else {
-    toast("OPENING EMAIL CLIENT FOR DEADXGAMING42@GMAIL.COM...");
-    const emailSubject = encodeURIComponent("New Project Order - Cortex Fusion X");
-    const emailBody = encodeURIComponent(`Hello Team,\n\nI want to purchase the following items from my Cart:\n${orderSummaryText}\n\nTotal Amount (incl. 8% GST): ₹${totalAmount.toFixed(2)}\n\nPlease process my order.`);
-    window.location.href = `mailto:deadxgaming42@gmail.com?subject=${emailSubject}&body=${emailBody}`;[cite: 3]
+    const emailSubject = encodeURIComponent("New Order / Purchase from " + name);
+    const emailBody = encodeURIComponent(`Hello Cortex Fusion X,\n\nI want to purchase the following items from my cart:\n${cartSummaryText}\n\nTotal Amount: ₹${total.toFixed(2)}\n\nCustomer Details:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress/Notes: ${address}`);
+    window.location.href = `mailto:deadxgaming42@gmail.com?subject=${emailSubject}&body=${emailBody}`;
   }
 }
 
@@ -542,15 +727,6 @@ products: `
 </div>
 </div>`,
 
-cart: `
-<div class="page">
-<div class="tag">CORTEX FUSION X // SHOPPING CART</div>
-<h1>Your <span>Cart.</span></h1>
-<p class="intro">Review your selected projects, adjust quantities, and proceed to direct purchase.</p>
-
-<div id="cart-content-area"></div>
-</div>`,
-
 about: `
 <div class="page">
 <div class="tag">CORTEX FUSION X // MISSION</div><h1>Engineering <span>Tomorrow.</span></h1>
@@ -580,8 +756,8 @@ contact: `
     <div class="contact-icon">✉️</div>
     <h3>Official Email</h3>
     <p>Send your project queries, feedback or technical questions to our primary email address.</p>
-    <a class="contact-link-btn contact-btn-cyan" href="mailto:cortexfusionx@gmail.com">
-      cortexfusionx@gmail.com ↗
+    <a class="contact-link-btn contact-btn-cyan" href="mailto:deadxgaming42@gmail.com">
+      deadxgaming42@gmail.com ↗
     </a>
   </div>
 
@@ -987,55 +1163,6 @@ async function loadLiveProducts(targetContainerId) {
   }
 }
 
-function loadCartPage() {
-  const container = document.getElementById("cart-content-area");
-  if(!container) return;
-
-  if(cart.length === 0) {
-    container.innerHTML = `
-      <div class="info" style="text-align:center;padding:50px;">
-        <h2 style="color:var(--muted);margin-bottom:15px;">YOUR CART IS CURRENTLY EMPTY</h2>
-        <p style="margin-bottom:20px;">Explore our products and add projects to your cart.</p>
-        <a class="btn primary" href="#products">EXPLORE PRODUCTS →</a>
-      </div>`;
-    return;
-  }
-
-  let subtotal = 0;
-  let itemsHTML = cart.map(item => {
-    let itemTotal = (item.basePrice * 1.08) * item.quantity;
-    subtotal += itemTotal;
-    return `
-      <div class="info" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:15px;">
-        <div>
-          <h3 style="color:#fff;margin-bottom:4px;">${esc(item.name)}</h3>
-          <p style="color:var(--green);font:800 13px monospace;">Base Price: ₹${item.basePrice.toFixed(2)} (+8% GST)</p>
-        </div>
-        <div style="display:flex;align-items:center;gap:15px;">
-          <div style="display:flex;align-items:center;gap:8px;background:#020509;border:1px solid var(--cyan);padding:4px 10px;border-radius:6px;">
-            <button onclick="updateQuantity('${esc(item.name)}', -1)" style="background:transparent;border:none;color:var(--cyan);font-weight:900;cursor:pointer;font-size:16px;">-</button>
-            <span style="font:900 14px monospace;color:#fff;min-width:20px;text-align:center;">${item.quantity}</span>
-            <button onclick="updateQuantity('${esc(item.name)}', 1)" style="background:transparent;border:none;color:var(--cyan);font-weight:900;cursor:pointer;font-size:16px;">+</button>
-          </div>
-          <div style="font:900 16px monospace;color:var(--green);min-width:90px;text-align:right;">₹${itemTotal.toFixed(2)}</div>
-          <button onclick="removeFromCart('${esc(item.name)}')" class="btn secondary" style="padding:6px 12px;font-size:11px;border-color:var(--red);color:var(--red);">REMOVE</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  container.innerHTML = `
-    <div>${itemsHTML}</div>
-    <div class="info" style="margin-top:30px;border-color:var(--cyan);background:linear-gradient(145deg,rgba(0,234,255,0.05),rgba(16,22,31,0.92));">
-      <div style="display:flex;justify-content:space-between;font:900 20px monospace;margin-bottom:20px;">
-        <span>TOTAL ORDER AMOUNT (INC. GST):</span>
-        <span style="color:var(--green);">₹${subtotal.toFixed(2)}</span>
-      </div>
-      <button onclick="handleContinueToPurchase()" class="btn primary" style="width:100%;padding:16px;font-size:15px;letter-spacing:1px;">CONTINUE TO PURCHASE →</button>
-    </div>
-  `;
-}
-
 function route(){
   let p=location.hash.replace("#","")||"home";
   if(!pages[p])p="home";
@@ -1074,7 +1201,6 @@ function route(){
     }
   }
   if(p==="products") loadLiveProducts('all-products-container');
-  if(p==="cart") loadCartPage();
   if(p==="signin") setupLogin();
   if(p==="profile") setupProfile();
 }
@@ -1172,10 +1298,9 @@ function updateNav(){
   const a=document.getElementById("nav-auth"),u=getUser();
   if(!a)return;
   if(u&&u.loggedIn){a.href="#profile";a.dataset.page="profile";a.textContent="PROFILE";}else{a.href="#signin";a.dataset.page="signin";a.textContent="SIGN IN";}
-  updateCartBadge();
 }
 window.addEventListener("hashchange",updateNav);
-route();updateNav();
+route();updateNav();updateCartBadge();
 </script>
 
 <script>
