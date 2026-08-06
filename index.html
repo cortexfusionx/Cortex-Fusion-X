@@ -9,7 +9,6 @@
 <title>CORTEX FUSION X // Engineering Tomorrow</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- EmailJS Integration -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <style>
@@ -46,7 +45,6 @@ body:after{
 }
 #bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.18;pointer-events:none}
 
-/* HEADER & NAVIGATION */
 header{
   position:fixed;top:0;left:0;width:100%;z-index:1000;
   background:rgba(3,5,7,.72);backdrop-filter:blur(18px);
@@ -58,26 +56,15 @@ nav{
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 950;
-  font-size: 22px;
-  letter-spacing: 2px;
-  text-decoration: none;
-  color: #fff;
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px; font-weight: 950;
+  font-size: 22px; letter-spacing: 2px; text-decoration: none; color: #fff;
+  transition: transform 0.3s ease; flex-shrink: 0;
 }
 .logo:hover { transform: scale(1.03); }
 .logo-icon-wrap {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: #000;
-  border: 1.5px solid var(--red);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 15px rgba(255,22,61,0.6);
-  overflow: hidden;
+  width: 40px; height: 40px; border-radius: 50%; background: #000;
+  border: 1.5px solid var(--red); display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 15px rgba(255,22,61,0.6); overflow: hidden;
 }
 .logo-icon-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .logo-text {
@@ -86,11 +73,9 @@ nav{
   text-shadow: 0 0 20px rgba(0,234,255,0.2);
 }
 .logo-x-badge {
-  background: linear-gradient(135deg, var(--red2), #80001d);
-  color: #fff; -webkit-text-fill-color: #fff;
+  background: linear-gradient(135deg, var(--red2), #80001d); color: #fff; -webkit-text-fill-color: #fff;
   padding: 2px 9px; border-radius: 6px; font-size: 20px; font-weight: 950;
-  border: 1px solid rgba(255,255,255,0.3);
-  box-shadow: 0 0 18px rgba(255,0,60,0.7);
+  border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 0 18px rgba(255,0,60,0.7);
   display: inline-block; animation: logoPulse 2.5s infinite alternate;
 }
 @keyframes logoPulse {
@@ -235,8 +220,9 @@ footer p{color:#5f6b79;margin-top:8px}
 .upi-btn {
   flex: 1; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
   border-radius: 8px; color: #fff; text-align: center; font: 800 12px monospace; cursor: pointer; text-decoration: none;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s;
 }
+.upi-btn.selected { border-color: var(--green); background: rgba(0,255,136,0.15); box-shadow: 0 0 15px rgba(0,255,136,0.3); }
 .upi-btn:hover { border-color: var(--cyan); background: rgba(0,234,255,0.1); }
 
 .cyber-modal-btn {
@@ -449,7 +435,7 @@ footer p{color:#5f6b79;margin-top:8px}
 
 <main id="app"></main>
 
-<!-- CHECKOUT / BILLING MODAL WITH GPAY/PHONEPE & EMAIL DISPATCH -->
+<!-- CHECKOUT / BILLING MODAL WITH GPAY/PHONEPE & SECURITY VERIFICATION -->
 <div class="cyber-modal-overlay" id="cyber-buy-modal">
   <div class="cyber-modal-card">
     <span class="close-modal-x" onclick="closeCyberBuyModal()">✕</span>
@@ -459,7 +445,9 @@ footer p{color:#5f6b79;margin-top:8px}
     
     <div class="checkout-summary">
       <div class="checkout-line"><span>SELECTED PRODUCT:</span><strong id="buy-prod-title">CareAlerter</strong></div>
-      <div class="checkout-line total"><span>TOTAL AMOUNT:</span><span id="buy-prod-price">₹999</span></div>
+      <div class="checkout-line"><span>BASE PRICE:</span><span id="buy-prod-base">₹999.00</span></div>
+      <div class="checkout-line"><span>GST (8%):</span><span id="buy-prod-gst">₹79.92</span></div>
+      <div class="checkout-line total"><span>TOTAL AMOUNT:</span><span id="buy-prod-price">₹1078.92</span></div>
     </div>
 
     <form id="order-form" onsubmit="handleOrderSubmission(event)">
@@ -480,13 +468,13 @@ footer p{color:#5f6b79;margin-top:8px}
         <textarea id="cust-address" rows="2" placeholder="Enter complete billing/shipping address..." required></textarea>
       </div>
 
-      <div style="font: 800 11px monospace; color: var(--cyan); margin-top: 15px;">// PAYMENT METHOD (UPI ONLY)</div>
+      <div style="font: 800 11px monospace; color: var(--cyan); margin-top: 15px;">// PAYMENT METHOD (SELECT TO PROCEED)</div>
       <div class="upi-gateways">
-        <a id="gpay-btn" class="upi-btn" target="_blank" href="#">🔵 Google Pay</a>
-        <a id="phonepe-btn" class="upi-btn" target="_blank" href="#">🟣 PhonePe</a>
+        <button type="button" id="gpay-btn" class="upi-btn" onclick="selectPaymentGateway('Google Pay')">🔵 Google Pay</button>
+        <button type="button" id="phonepe-btn" class="upi-btn" onclick="selectPaymentGateway('PhonePe')">🟣 PhonePe</button>
       </div>
 
-      <button type="submit" class="cyber-modal-btn">CONFIRM ORDER & SEND TO EMAIL →</button>
+      <button type="submit" class="cyber-modal-btn">CONFIRM ORDER & VERIFY PASSWORD →</button>
     </form>
   </div>
 </div>
@@ -510,39 +498,58 @@ footer p{color:#5f6b79;margin-top:8px}
 
 <script>
 /* -------------------------------------------------------------
-   SUPABASE & EMAILJS CONFIGURATION
+   SUPABASE CONFIGURATION & ORDER PROCESSING
 ------------------------------------------------------------- */
 const SUPABASE_URL = "https://mbmzielprlrmqslrpyac.supabase.co";
 const SUPABASE_KEY = "sb_publishable_T_JGvoJDW3PPSckt35nC-g_knQEHYx6";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* Global state for billing */
-let activeOrder = { title: "CareAlerter", price: 999 };
+let activeOrder = { title: "CareAlerter", basePrice: 999, totalAmount: 1078.92, gstAmount: 79.92 };
+let selectedPaymentMethod = null;
 
-function triggerBuyPopup(e, name = "CareAlerter", price = 999){
+function triggerBuyPopup(e, name = "CareAlerter", basePrice = 999){
   if(e) e.preventDefault();
-  activeOrder.title = name;
-  activeOrder.price = price;
+
+  // RULE 1: MANDATORY SIGN IN BEFORE BUYING
+  const user = getUser();
+  if(!user || !user.loggedIn){
+    toast("PLEASE SIGN IN TO BUY PRODUCTS");
+    location.hash = "#signin";
+    return;
+  }
+
+  // RULE 3: CALCULATE 8% GST ALWAYS
+  const gst = basePrice * 0.08;
+  const total = basePrice + gst;
+
+  activeOrder = {
+    title: name,
+    basePrice: basePrice,
+    gstAmount: gst,
+    totalAmount: total
+  };
+
+  selectedPaymentMethod = null;
+  document.getElementById("gpay-btn").classList.remove("selected");
+  document.getElementById("phonepe-btn").classList.remove("selected");
   
   document.getElementById("buy-prod-title").textContent = name;
-  document.getElementById("buy-prod-price").textContent = "₹" + price;
+  document.getElementById("buy-prod-base").textContent = "₹" + basePrice.toFixed(2);
+  document.getElementById("buy-prod-gst").textContent = "₹" + gst.toFixed(2);
+  document.getElementById("buy-prod-price").textContent = "₹" + total.toFixed(2);
   
-  // Setup Dynamic UPI Deep Links for Google Pay / PhonePe
-  const upiId = "7206789580@upi"; // Default phone UPI ID
-  const upiLink = `upi://pay?pa=${upiId}&pn=CortexFusionX&am=${price}&cu=INR&tn=Order_${encodeURIComponent(name)}`;
-  
-  document.getElementById("gpay-btn").href = upiLink;
-  document.getElementById("phonepe-btn").href = upiLink;
-  
-  // Auto-fill form if logged in
-  const user = getUser();
-  if(user){
-    document.getElementById("cust-name").value = user.username || "";
-    document.getElementById("cust-email").value = user.email || "";
-    document.getElementById("cust-phone").value = user.phone || "";
-  }
+  document.getElementById("cust-name").value = user.username || "";
+  document.getElementById("cust-email").value = user.email || "";
+  document.getElementById("cust-phone").value = user.phone || "";
   
   document.getElementById("cyber-buy-modal").style.display = "flex";
+}
+
+function selectPaymentGateway(gateway){
+  selectedPaymentMethod = gateway;
+  document.getElementById("gpay-btn").classList.toggle("selected", gateway === 'Google Pay');
+  document.getElementById("phonepe-btn").classList.toggle("selected", gateway === 'PhonePe');
+  toast("SELECTED GATEWAY: " + gateway.toUpperCase());
 }
 
 function closeCyberBuyModal(){
@@ -551,19 +558,49 @@ function closeCyberBuyModal(){
 
 async function handleOrderSubmission(e){
   e.preventDefault();
+  
+  // RULE 1: CHECK GATEWAY SELECTION
+  if(!selectedPaymentMethod){
+    toast("PLEASE SELECT GOOGLE PAY OR PHONEPE TO PROCEED");
+    return;
+  }
+
+  // RULE 2: POPUP WINDOW FOR PASSWORD BEFORE QR CODE ACCESS
+  const passPrompt = prompt("SECURITY VERIFICATION REQUIRED\nEnter Authorization Password to access QR Code & Complete Order:");
+  
+  if(passPrompt !== "qrcode@1"){
+    alert("INVALID AUTHORIZATION PASSWORD. PURCHASE DENIED.");
+    return;
+  }
+
   const name = document.getElementById("cust-name").value;
   const email = document.getElementById("cust-email").value;
   const phone = document.getElementById("cust-phone").value;
   const address = document.getElementById("cust-address").value;
   
-  // Construct email body / mailto backup
-  const mailSubject = `NEW ORDER: ${activeOrder.title} (₹${activeOrder.price})`;
-  const mailBody = `NEW ORDER RECEIVED FOR CORTEX FUSION X:\n\nProduct: ${activeOrder.title}\nPrice: ₹${activeOrder.price}\n\nCUSTOMER DETAILS:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress:\n${address}`;
+  // RULE 2: DISPATCH DETAILS TO cortexfusionx@gmail.com
+  const mailSubject = `NEW PURCHASE ORDER: ${activeOrder.title} (₹${activeOrder.totalAmount.toFixed(2)})`;
+  const mailBody = `NEW VERIFIED ORDER RECEIVED FOR CORTEX FUSION X:\n\n` +
+                   `Product: ${activeOrder.title}\n` +
+                   `Base Price: ₹${activeOrder.basePrice.toFixed(2)}\n` +
+                   `GST Applied (8%): ₹${activeOrder.gstAmount.toFixed(2)}\n` +
+                   `Total Amount: ₹${activeOrder.totalAmount.toFixed(2)}\n` +
+                   `Payment Method Selected: ${selectedPaymentMethod}\n\n` +
+                   `CUSTOMER DETAILS:\n` +
+                   `Name: ${name}\n` +
+                   `Email: ${email}\n` +
+                   `Phone: ${phone}\n` +
+                   `Address:\n${address}`;
 
-  // Direct Mailto Trigger to send to cortexfusionx@gmail.com
+  // Launch automatic dispatch to cortexfusionx@gmail.com
   window.open(`mailto:cortexfusionx@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`);
 
-  toast("ORDER SUBMITTED! CHECK EMAIL DISPATCH");
+  // Direct UPI App Deep Link Activation post-verification
+  const upiId = "7206789580@upi";
+  const upiLink = `upi://pay?pa=${upiId}&pn=CortexFusionX&am=${activeOrder.totalAmount.toFixed(2)}&cu=INR&tn=Order_${encodeURIComponent(activeOrder.title)}`;
+  window.location.href = upiLink;
+
+  toast("PASSWORD VERIFIED // ORDER SENT TO CORTEXFUSIONX@GMAIL.COM");
   closeCyberBuyModal();
 }
 
@@ -783,8 +820,8 @@ carealert: `
 
   <div class="price-box">
     <div>
-      <div style="font:800 11px monospace;color:var(--muted)">OFFICIAL PRICE</div>
-      <div class="price-value" id="price-display">₹999 / $10.51</div>
+      <div style="font:800 11px monospace;color:var(--muted)">OFFICIAL BASE PRICE</div>
+      <div class="price-value" id="price-display">₹999 (+8% GST)</div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a>
@@ -893,8 +930,8 @@ aerorescue: `
 
   <div class="price-box">
     <div>
-      <div style="font:800 11px monospace;color:var(--muted)">OFFICIAL PRICE</div>
-      <div class="price-value">₹500 / $5.26</div>
+      <div style="font:800 11px monospace;color:var(--muted)">OFFICIAL BASE PRICE</div>
+      <div class="price-value">₹500 (+8% GST)</div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a>
@@ -990,7 +1027,6 @@ function toast(msg){
   window.__t=setTimeout(()=>t.style.display="none",2500);
 }
 
-/* Dynamic product loader with correct pricing and buy buttons */
 async function loadLiveProducts(targetContainerId) {
   const container = document.getElementById(targetContainerId);
   if (!container) return;
@@ -1004,7 +1040,7 @@ async function loadLiveProducts(targetContainerId) {
         <div class="card-content">
           <h3>CareAlerter</h3>
           <p style="font-weight:bold;color:var(--cyan);font-size:12px;margin-bottom:4px;">Founder: Haeraksh Arora</p>
-          <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹999 / $10.51</p>
+          <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹999 (+8% GST)</p>
           <p>An Intelligent Emergency Alert System designed to identify emergency situations.</p>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
             <a class="card-link" href="#carealert">VIEW MODULE →</a>
@@ -1018,7 +1054,7 @@ async function loadLiveProducts(targetContainerId) {
         <div class="card-content">
           <h3>Aerospace Disaster Rescue System</h3>
           <p style="font-weight:bold;color:var(--cyan);font-size:12px;margin-bottom:4px;">Founder: Haeraksh Arora</p>
-          <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹500 / $5.26</p>
+          <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹500 (+8% GST)</p>
           <p>AeroRescue AI - An Intelligent Aerospace Rescue System powered by YOLO AI and Computer Vision.</p>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
             <a class="card-link" href="#aerorescue">VIEW MODULE →</a>
@@ -1038,7 +1074,7 @@ async function loadLiveProducts(targetContainerId) {
           <div class="card-content">
             <h3>${esc(item.title)}</h3>
             <p style="font-weight:bold;color:var(--cyan);font-size:11px;margin-bottom:4px;">Founder: Haeraksh Arora</p>
-            <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹${itemPrice}</p>
+            <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹${itemPrice} (+8% GST)</p>
             <p>${esc(item.description) || 'Advanced Cortex Fusion X engineering product.'}</p>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
               <a class="card-link" href="${esc(targetLink)}">VIEW MODULE →</a>
