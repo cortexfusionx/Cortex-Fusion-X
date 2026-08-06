@@ -733,7 +733,7 @@ async function handleCartCheckout(event){
     window.location.href = "tel:7206789580";
   } else {
     // Desktop: open Gmail compose page in a separate tab with cortexfusionx@gmail.com primary
-    const emailSubject = encodeURIComponent("New Order / Purchase from " + name);
+    const emailSubject = encodeURIComponent("purchase request");
     const emailBody = encodeURIComponent(`Hello Cortex Fusion X,\n\nI want to purchase the following items from my cart:\n${cartSummaryText}\nShipping: ₹99.00 ($1.04)\n\nTotal Amount: ₹${total.toFixed(2)}\n\nCustomer Details:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress/Notes: ${address}`);
     
     // Open Gmail tab
