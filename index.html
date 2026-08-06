@@ -482,7 +482,7 @@ footer p{color:#5f6b79;margin-top:8px}
         <button type="button" id="phonepe-btn" class="upi-btn" onclick="selectPaymentGateway('PhonePe')">🟣 PhonePe</button>
       </div>
 
-      <button type="submit" class="cyber-modal-btn">CONFIRM ORDER & VERIFY PASSWORD →</button>
+      <button type="submit" class="cyber-modal-btn" id="submit-order-btn">CONFIRM ORDER & VERIFY PASSWORD →</button>
     </form>
   </div>
 </div>
@@ -518,7 +518,6 @@ let selectedPaymentMethod = null;
 function triggerBuyPopup(e, name = "CareAlerter", basePrice = 999){
   if(e) e.preventDefault();
 
-  // RULE 1: MANDATORY SIGN IN BEFORE BUYING
   const user = getUser();
   if(!user || !user.loggedIn){
     toast("PLEASE SIGN IN TO BUY PRODUCTS");
@@ -526,7 +525,6 @@ function triggerBuyPopup(e, name = "CareAlerter", basePrice = 999){
     return;
   }
 
-  // RULE 3: CALCULATE 8% GST ALWAYS
   const gst = basePrice * 0.08;
   const total = basePrice + gst;
 
@@ -564,16 +562,14 @@ function closeCyberBuyModal(){
   document.getElementById("cyber-buy-modal").style.display = "none";
 }
 
-async function handleOrderSubmission(e){
-  e.preventDefault();
+async function handleOrderSubmission(event){
+  event.preventDefault();
   
-  // RULE 1: CHECK GATEWAY SELECTION
   if(!selectedPaymentMethod){
     toast("PLEASE SELECT GOOGLE PAY OR PHONEPE TO PROCEED");
     return;
   }
 
-  // RULE 2: POPUP WINDOW FOR PASSWORD BEFORE QR CODE ACCESS
   const passPrompt = prompt("SECURITY VERIFICATION REQUIRED\nEnter Authorization Password to access QR Code & Complete Order:");
   
   if(passPrompt !== "qrcode@1"){
@@ -585,8 +581,11 @@ async function handleOrderSubmission(e){
   const email = document.getElementById("cust-email").value;
   const phone = document.getElementById("cust-phone").value;
   const address = document.getElementById("cust-address").value;
-  
-  // EmailJS Direct Automatic Background Email Parameters
+  const submitBtn = document.getElementById("submit-order-btn");
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "PROCESSING ORDER...";
+
   const templateParams = {
     to_email: 'cortexfusionx@gmail.com',
     customer_name: name,
@@ -602,27 +601,19 @@ async function handleOrderSubmission(e){
 
   toast("SENDING ORDER DETAILS TO CORTEXFUSIONX@GMAIL.COM...");
 
-  // Send Email via EmailJS Service
   try {
-    // Replace YOUR_SERVICE_ID & YOUR_TEMPLATE_ID with your EmailJS credentials
-    await emailjs.send('service_abc1234', 'YOUR_TEMPLATE_ID', templateParams);
-    toast("PASSWORD VERIFIED // ORDER SENT TO CORTEXFUSIONX@GMAIL.COM");
+    // Replace YOUR_SERVICE_ID & YOUR_TEMPLATE_ID with your valid EmailJS IDs
+    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+    toast("ORDER DETAILS SENT TO CORTEXFUSIONX@GMAIL.COM!");
   } catch (err) {
-    console.error("EmailJS Error:", err);
-    // Fallback: Mailto trigger if EmailJS fails or keys are unconfigured
-    const mailSubject = `NEW PURCHASE ORDER: ${activeOrder.title} (₹${activeOrder.totalAmount.toFixed(2)})`;
-    const mailBody = `NEW VERIFIED ORDER RECEIVED FOR CORTEX FUSION X:\n\n` +
-                     `Product: ${activeOrder.title}\n` +
-                     `Base Price: ₹${activeOrder.basePrice.toFixed(2)}\n` +
-                     `GST (8%): ₹${activeOrder.gstAmount.toFixed(2)}\n` +
-                     `Total Amount: ₹${activeOrder.totalAmount.toFixed(2)}\n` +
-                     `Payment Method: ${selectedPaymentMethod}\n\n` +
-                     `CUSTOMER DETAILS:\n` +
-                     `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nAddress:\n${address}`;
-    window.location.href = `mailto:cortexfusionx@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+    console.error("EmailJS dispatch error:", err);
+    toast("API ERROR: PLEASE CONFIGURE YOUR EMAILJS SERVICE & TEMPLATE ID");
   }
 
-  // Direct UPI App Deep Link Activation post-verification
+  submitBtn.disabled = false;
+  submitBtn.textContent = "CONFIRM ORDER & VERIFY PASSWORD →";
+
+  // Trigger UPI app direct payment interface without opening mail applications
   const upiId = "7206789580@upi";
   const upiLink = `upi://pay?pa=${upiId}&pn=CortexFusionX&am=${activeOrder.totalAmount.toFixed(2)}&cu=INR&tn=Order_${encodeURIComponent(activeOrder.title)}`;
   window.location.href = upiLink;
@@ -1136,7 +1127,6 @@ function route(){
       }
     }
 
-    // Dynamic click handler for "JOIN CORTEX FUSION X" CTA Button
     const joinBtn = document.getElementById("join-cta-btn");
     if (joinBtn) {
       joinBtn.addEventListener("click", function(e) {
