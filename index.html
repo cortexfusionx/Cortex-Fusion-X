@@ -546,7 +546,7 @@ footer p{color:#5f6b79;margin-top:8px}
 .welcome-user{display:inline-block;padding:9px 14px;margin-bottom:22px;border:1px solid rgba(0,234,255,.35);border-radius:5px;color:var(--cyan);font:12px monospace;background:rgba(0,234,255,.04)}
 @media(max-width:750px){.profile-layout{grid-template-columns:1fr}.auth-footer{flex-direction:column}}
 .carealert-hero-card{
-  max-width:1050px;margin:0 auto 25px;padding:55px 30px;text-align:center;
+  max-width:1050px;margin:0 auto 25px;padding:65px 35px;text-align:center;
   background: radial-gradient(circle at 50% 35%,rgba(255,22,61,.18),transparent 42%),
               linear-gradient(145deg,rgba(16,22,31,.94),rgba(5,8,12,.96));
   border:1px solid rgba(255,22,61,.45);border-radius:22px;
@@ -557,13 +557,13 @@ footer p{color:#5f6b79;margin-top:8px}
   content:"";position:absolute;inset:14px;border:1px solid rgba(0,234,255,.10);
   border-radius:15px;pointer-events:none;
 }
-.carealert-icon{font-size:70px;filter:drop-shadow(0 0 20px rgba(255,0,55,.45))}
+.carealert-icon{font-size:85px;filter:drop-shadow(0 0 20px rgba(255,0,55,.45))}
 .author-badge{
   display:inline-block;margin-top:15px;padding:8px 18px;border:1.5px solid var(--cyan);
   border-radius:25px;color:var(--cyan);font:900 12px monospace;letter-spacing:1px;
 }
 .product-media-card{
-  max-width:1050px;margin:0 auto 25px;padding:35px;
+  max-width:1050px;margin:0 auto 25px;padding:45px;
   background:linear-gradient(145deg,rgba(16,22,31,.92),rgba(5,8,12,.92));
   border:1px solid rgba(0,234,255,.2);border-radius:20px;
   box-shadow:0 0 40px rgba(0,234,255,.05);
@@ -579,6 +579,38 @@ footer p{color:#5f6b79;margin-top:8px}
 .doc-list li:before{content:"⚡";position:absolute;left:0;color:var(--cyan)}
 .tech-pill-container{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
 .tech-pill{padding:8px 14px;background:rgba(0,234,255,.08);border:1px solid rgba(0,234,255,.3);border-radius:20px;color:var(--cyan);font:800 12px monospace}
+
+/* FIXED CAREALERT SIDE-BY-SIDE LAYOUT */
+.carealert-split-grid {
+  max-width: 1200px;
+  margin: 0 auto 25px;
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  gap: 30px;
+  align-items: stretch;
+}
+.carealert-poster-wrap {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid var(--red);
+  box-shadow: 0 0 40px rgba(255,0,55,0.3);
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carealert-poster-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+@media(max-width: 900px) {
+  .carealert-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -693,6 +725,13 @@ function updateCartBadge() {
 }
 
 function addToCart(pName, price) {
+  const user = getUser();
+  if (!user || !user.loggedIn) {
+    toast("❌ YOU HAVE TO SIGN UP TO PURCHASE");
+    setTimeout(() => { location.hash = "#signin"; }, 1500);
+    return;
+  }
+  
   const existing = cart.find(i => i.name === pName);
   if (existing) {
     existing.quantity += 1;
@@ -990,6 +1029,22 @@ const getReviewSectionHTML = () => `
   </div>
 `;
 
+function getJoinCortexHTML() {
+  const user = getUser();
+  if (user && user.loggedIn) {
+    return `<div style="text-align:center; padding:30px; border: 1px solid var(--green); border-radius:15px; margin-top:20px;">
+      <h3 style="color:var(--green)">✅ ALREADY JOINED</h3>
+      <p style="color:var(--muted); margin: 10px 0;">You are already part of the community.</p>
+      <a class="btn primary" href="#profile">HEAD TO PERSONALISATION →</a>
+    </div>`;
+  }
+  return `<div style="text-align:center; padding:30px; border: 1px solid var(--red); border-radius:15px; margin-top:20px;">
+    <h3 style="color:var(--red)">⚠️ JOIN CORTEX FUSION X</h3>
+    <p style="color:var(--muted); margin: 10px 0;">You have to sign up to access exclusive features.</p>
+    <a class="btn primary" href="#signin">SIGN UP NOW →</a>
+  </div>`;
+}
+
 function loadHomeProducts() {
   const container = document.getElementById("home-products-container");
   if (!container) return;
@@ -1002,6 +1057,7 @@ function loadHomeProducts() {
           <h3>CareAlerter</h3>
           <p style="font-weight:bold;color:var(--cyan);font-size:12px;margin-bottom:4px;">Founder: Haeraksh Arora</p>
           <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹1000 ($10.50)</p>
+          <div style="margin-bottom:12px;background:rgba(0,234,255,0.05);border:1px solid rgba(0,234,255,0.2);padding:8px 12px;border-radius:8px;"><a href="https://www.youtube.com/watch?v=OrWK40JvH5E&t=14s" target="_blank" style="color:var(--cyan);text-decoration:none;font-weight:bold;font-size:13px;display:flex;align-items:center;gap:6px;">▶ how to use the product</a></div>
           <p>An Intelligent Emergency Alert System designed to identify emergency situations.</p>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
             <a class="card-link" href="#carealert">VIEW MODULE →</a>
@@ -1015,6 +1071,7 @@ function loadHomeProducts() {
           <h3>Aerospace Disaster Rescue System</h3>
           <p style="font-weight:bold;color:var(--cyan);font-size:12px;margin-bottom:4px;">Founder: Haeraksh Arora</p>
           <p style="font-weight:800;color:var(--green);font-size:13px;margin-bottom:8px;">₹600 ($6.30)</p>
+          <div style="margin-bottom:12px;background:rgba(0,234,255,0.05);border:1px solid rgba(0,234,255,0.2);padding:8px 12px;border-radius:8px;"><a href="https://www.youtube.com/watch?v=u1U7ph5LNbU" target="_blank" style="color:var(--cyan);text-decoration:none;font-weight:bold;font-size:13px;display:flex;align-items:center;gap:6px;">▶ how to use the product</a></div>
           <p>AeroRescue AI - An Intelligent Aerospace Rescue System powered by YOLO AI and Computer Vision.</p>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
             <a class="card-link" href="#aerorescue">VIEW MODULE →</a>
@@ -1029,7 +1086,7 @@ function loadHomeProducts() {
 }
 
 const pages = {
-  home: `<section class="hero"><div class="hero-content"><div class="tag">[ NEXT-GENERATION ENGINEERING PLATFORM ]</div><div><div class="founder-hero-badge"><div class="founder-hero-title">⚡ FOUNDER & LEAD ENGINEER:</div><div class="founder-hero-name">HAERAKSH ARORA</div></div></div><h1>BUILD.<br><span class="red">CREATE.</span><br><span class="cyan">INNOVATE.</span></h1><p>Cortex Fusion X brings robotics, artificial intelligence, electronics, and engineering into one futuristic technology hub founded by Haeraksh Arora.</p><div class="buttons"><a class="btn primary" href="#products">EXPLORE PRODUCTS</a><a class="btn secondary profile-home" href="#profile">MY PROFILE</a></div></div></section><section><div class="section-title"><small>CORTEX FUSION X ECOSYSTEM</small><h2>Featured Innovations</h2><p>Explore our latest products fetching live from our backend.</p></div><div class="products" id="home-products-container"><p style="color:var(--muted);text-align:center;">Loading products...</p></div></section><section><div class="section-title"><small>CORE INITIATIVE</small><h2>Future IoT</h2><p>Discover the next evolutionary wave of interconnected smart infrastructure.</p></div><div style="max-width:1050px;margin:auto;padding:45px 35px;background:linear-gradient(145deg,rgba(16,22,31,.92),rgba(5,8,12,.92));border:1.5px solid var(--cyan);border-radius:20px;box-shadow:0 0 50px rgba(0,234,255,.1);"><h3 style="font:900 24px monospace;color:var(--cyan);margin-bottom:12px;">📡 DEVELOPED BY IOT CORTEX</h3><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;">Future IoT delivers automated telemetry, real-time edge processing, and multi-sensor connectivity built directly into the Cortex Fusion X ecosystem.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;">By implementing ultra-low power microcontroller nodes combined with mesh networking protocols, our architecture ensures seamless data transmission across sprawling industrial and residential deployments.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">Experience uninterrupted uptime, automated anomaly diagnostics, and centralized cloud synchronization engineered for the next decade of intelligent environments.</p><a class="btn primary" href="#futureiot">EXPLORE FUTURE IOT →</a></div></section>${getReviewSectionHTML()}`,
+  home: `<section class="hero"><div class="hero-content"><div class="tag">[ NEXT-GENERATION ENGINEERING PLATFORM ]</div><div><div class="founder-hero-badge"><div class="founder-hero-title">⚡ FOUNDER & LEAD ENGINEER:</div><div class="founder-hero-name">HAERAKSH ARORA</div></div></div><h1>BUILD.<br><span class="red">CREATE.</span><br><span class="cyan">INNOVATE.</span></h1><p>Cortex Fusion X brings robotics, artificial intelligence, electronics, and engineering into one futuristic technology hub founded by Haeraksh Arora.</p><div class="buttons"><a class="btn primary" href="#products">EXPLORE PRODUCTS</a><a class="btn secondary profile-home" href="#profile">MY PROFILE</a></div></div></section><section><div class="section-title"><small>CORTEX FUSION X ECOSYSTEM</small><h2>Featured Innovations</h2><p>Explore our latest products fetching live from our backend.</p></div><div class="products" id="home-products-container"><p style="color:var(--muted);text-align:center;">Loading products...</p></div></section><section><div class="section-title"><small>CORE INITIATIVE</small><h2>Future IoT</h2><p>Discover the next evolutionary wave of interconnected smart infrastructure.</p></div><div style="max-width:1050px;margin:auto;padding:45px 35px;background:linear-gradient(145deg,rgba(16,22,31,.92),rgba(5,8,12,.92));border:1.5px solid var(--cyan);border-radius:20px;box-shadow:0 0 50px rgba(0,234,255,.1);"><h3 style="font:900 24px monospace;color:var(--cyan);margin-bottom:12px;">📡 DEVELOPED BY IOT CORTEX</h3><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;">Future IoT delivers automated telemetry, real-time edge processing, and multi-sensor connectivity built directly into the Cortex Fusion X ecosystem.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;">By implementing ultra-low power microcontroller nodes combined with mesh networking protocols, our architecture ensures seamless data transmission across sprawling industrial and residential deployments.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">Experience uninterrupted uptime, automated anomaly diagnostics, and centralized cloud synchronization engineered for the next decade of intelligent environments.</p><a class="btn primary" href="#futureiot">EXPLORE FUTURE IOT →</a></div></section>${getJoinCortexHTML()}${getReviewSectionHTML()}`,
   products: `<div class="page"><div class="tag">CORTEX FUSION X // PRODUCT CATALOG</div><h1>Active <span>Innovations.</span></h1><p class="intro">Explore hardware modules, AI emergency dispatch units, and software packages built by Founder Haeraksh Arora.</p><div class="products" id="home-products-container"></div></div>${getReviewSectionHTML()}`,
   futureiot: `<div class="page"><div class="tag">CORTEX FUSION X // IOT CORTEX ARCHITECTURE</div><h1>Future <span>IoT.</span></h1><p class="intro">Developed by Iot Cortex — Pioneering the next generation of smart sensor networks, automated telemetry, and connected infrastructure.</p><div class="carealert-hero-card" style="border-color:var(--cyan);box-shadow:0 0 70px rgba(0,234,255,.15);"><div class="carealert-icon">📡</div><h2>FUTURE IOT</h2><div class="author-badge" style="border-color:var(--cyan);color:var(--cyan);background:rgba(0,234,255,.08);">⚡ DEVELOPED BY IOT CORTEX</div><p style="margin-top:14px;font-weight:bold;color:var(--muted);">Advanced Interconnected Device & Telemetry Architecture</p><div class="buttons care-buttons" style="margin-top:25px"><a class="btn secondary" href="#home">← BACK TO HOME</a><a class="btn primary" href="#products">EXPLORE PRODUCTS</a></div></div><div class="product-media-card"><h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;">// COMPREHENSIVE SYSTEM OVERVIEW</h2><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;font-size:16px;">Future IoT represents the cutting edge of interconnected device architecture, smart sensor integration, and automated edge-computing environments developed by Iot Cortex.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;font-size:16px;">Our custom firmware suite optimizes power consumption dynamically while maximizing packet throughput across high-density wireless networks.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;font-size:16px;">From automated environmental safety triggers to predictive hardware maintenance logs, Future IoT provides robust scalability for enterprise and smart city requirements.</p></div></div>${getReviewSectionHTML()}`,
   about: `<div class="page">
@@ -1080,8 +1137,43 @@ const pages = {
 
 </div>${getReviewSectionHTML()}`,
   contact: `<div class="page"><div class="tag">CORTEX FUSION X // DIRECT COMMUNICATIONS</div><h1>Get In <span>Touch.</span></h1><p class="intro">Have questions, technical inquiries, or business proposals? Connect directly with Founder Haeraksh Arora and the Cortex Fusion X engineering team.</p><div class="contact-container"><div class="contact-card"><div class="contact-icon">✉️</div><h3>Official Email</h3><p>Send your project queries, feedback or technical questions to our primary email address.</p><a class="contact-link-btn contact-btn-cyan" href="mailto:cortexfusionx@gmail.com">cortexfusionx@gmail.com ↗</a></div><div class="contact-card contact-card-red"><div class="contact-icon contact-icon-red">📞</div><h3>Phone & Order Hotline</h3><p>Direct line to Founder Haeraksh Arora for purchases, direct calls, technical collaboration, and support.</p><div class="phone-list"><a class="contact-link-btn contact-btn-red" href="tel:+917206789580">📞 +91 72067 89580</a></div></div></div></div>${getReviewSectionHTML()}`,
-  carealert: `<div class="page carealert-page"><div class="tag">CORTEX FUSION X // ACTIVE PRODUCT</div><h1>Care<span>Alerter.</span></h1><p class="intro">An Intelligent Emergency Alert System designed to identify possible emergency situations and provide quick alerts.</p><div class="carealert-hero-card"><div class="carealert-icon">🚨</div><h2>CARE ALERTER</h2><div class="author-badge">⚡ CREATED & FOUNDED BY HAERAKSH ARORA</div><p style="margin-top:14px;font-weight:bold;color:var(--cyan);">Intelligent Emergency Alert System</p><div class="buttons care-buttons" style="margin-top:25px"><a class="btn secondary" href="#products">← BACK TO PRODUCTS</a><a class="btn primary" href="#home">CORTEX FUSION X HOME</a></div></div><div class="product-media-card" id="carealert-pricing-target"><h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;">// SPECIFICATIONS_AND_PRICING</h2><p id="carealert-detail-para" style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">CareAlerter engineered by <strong>Founder Haeraksh Arora</strong> features real-time emergency detection, data analysis, quick dashboard alert generation, and AI-assisted response workflow.</p><div class="price-box"><div><div style="font:800 11px monospace;color:var(--muted)">OFFICIAL BASE PRICE</div><div class="price-value">₹1000 ($10.50)</div></div><div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a><button class="btn primary" onclick="addToCart('CareAlerter', 1000)">ADD TO CART</button></div></div></div></div>${getReviewSectionHTML()}`,
-  aerorescue: `<div class="page carealert-page"><div class="tag">CORTEX FUSION X // ACTIVE PRODUCT</div><h1>AeroRescue <span>AI.</span></h1><p class="intro">An Aerospace Disaster Rescue System designed to detect people and monitor rescue missions using Artificial Intelligence.</p><div class="carealert-hero-card"><div class="carealert-icon">🚀</div><h2>AERORESCUE AI</h2><div class="author-badge">⚡ CREATED & FOUNDED BY HAERAKSH ARORA</div><p style="margin-top:14px;font-weight:bold;color:var(--cyan);">Aerospace Disaster Rescue Response System</p><div class="buttons care-buttons" style="margin-top:25px"><a class="btn secondary" href="#products">← BACK TO PRODUCTS</a><a class="btn primary" href="#home">CORTEX FUSION X HOME</a></div></div><div class="product-media-card"><h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;">// SPECIFICATIONS_AND_PRICING</h2><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">Aerospace Disaster Rescue Response System (AeroRescue AI) engineered by <strong>Founder Haeraksh Arora</strong> uses AI detection to scan camera feeds, locate victims, and manage emergency aerospace rescue missions.</p><div class="price-box"><div><div style="font:800 11px monospace;color:var(--muted)">OFFICIAL BASE PRICE</div><div class="price-value">₹600 ($6.30)</div></div><div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a><button class="btn primary" onclick="addToCart('AeroRescue AI', 600)">ADD TO CART</button></div></div></div></div>${getReviewSectionHTML()}`,
+  carealert: `<div class="page carealert-page">
+    <div class="tag">CORTEX FUSION X // ACTIVE PRODUCT</div>
+    <h1>Care<span>Alerter.</span></h1>
+    <p class="intro">An Intelligent Emergency Alert System designed to identify possible emergency situations and provide quick alerts.</p>
+    
+    <div class="carealert-split-grid">
+      <div class="carealert-poster-wrap">
+        <img src="file_000000000c708211b3057ff008d3c9e5_2.png" alt="CareAlerter Infographic Poster">
+      </div>
+      <div>
+        <div class="carealert-hero-card" style="margin: 0 0 20px 0; text-align: left; padding: 35px;">
+          <div class="carealert-icon" style="font-size: 55px; margin-bottom: 10px;">🚨</div>
+          <h2 style="font-size: 28px;">CARE ALERTER</h2>
+          <div class="author-badge">⚡ CREATED & FOUNDED BY HAERAKSH ARORA</div>
+          <p style="margin-top:14px;font-weight:bold;color:var(--cyan);">Intelligent Emergency Alert System</p>
+        </div>
+        <div class="product-media-card" id="carealert-pricing-target" style="margin: 0; padding: 30px;">
+          <h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;font-size:18px;">// SPECIFICATIONS_AND_PRICING</h2>
+          <p id="carealert-detail-para" style="color:#b0bccb;line-height:1.7;margin-bottom:18px;font-size:14px;">CareAlerter engineered by <strong>Founder Haeraksh Arora</strong> features real-time emergency detection, data analysis, quick dashboard alert generation, and AI-assisted response workflow.</p>
+          <div class="price-box" style="margin-top:0;">
+            <div>
+              <div style="font:800 10px monospace;color:var(--muted)">OFFICIAL BASE PRICE</div>
+              <div class="price-value" style="font-size: 24px;">₹1000 ($10.50)</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn primary" onclick="addToCart('CareAlerter', 1000)" style="padding:10px 14px;font-size:12px;">ADD TO CART</button>
+            </div>
+          </div>
+          <div style="margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;">
+            <a class="btn secondary" href="tel:+917206789580" style="padding:10px 14px;font-size:11px;">📞 CALL SUPPORT</a>
+            <a href="https://www.youtube.com/watch?v=OrWK40JvH5E&t=14s" target="_blank" style="color:var(--cyan);text-decoration:none;font-weight:bold;font-size:13px;display:flex;align-items:center;gap:6px;background:rgba(0,234,255,0.05);border:1px solid rgba(0,234,255,0.2);padding:8px 12px;border-radius:8px;">▶ how to use the product</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>${getReviewSectionHTML()}`,
+  aerorescue: `<div class="page carealert-page"><div class="tag">CORTEX FUSION X // ACTIVE PRODUCT</div><h1>AeroRescue <span>AI.</span></h1><p class="intro">An Aerospace Disaster Rescue System designed to detect people and monitor rescue missions using Artificial Intelligence.</p><div class="carealert-hero-card"><div class="carealert-icon">🚀</div><h2>AERORESCUE AI</h2><div class="author-badge">⚡ CREATED & FOUNDED BY HAERAKSH ARORA</div><p style="margin-top:14px;font-weight:bold;color:var(--cyan);">Aerospace Disaster Rescue Response System</p><div class="buttons care-buttons" style="margin-top:25px"><a class="btn secondary" href="#products">← BACK TO PRODUCTS</a><a class="btn primary" href="#home">CORTEX FUSION X HOME</a></div></div><div class="product-media-card"><h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;">// SPECIFICATIONS_AND_PRICING</h2><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">Aerospace Disaster Rescue Response System (AeroRescue AI) engineered by <strong>Founder Haeraksh Arora</strong> uses AI detection to scan camera feeds, locate victims, and manage emergency aerospace rescue missions.</p><div class="price-box"><div><div style="font:800 11px monospace;color:var(--muted)">OFFICIAL BASE PRICE</div><div class="price-value">₹600 ($6.30)</div></div><div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a><button class="btn primary" onclick="addToCart('AeroRescue AI', 600)">ADD TO CART</button></div></div><p style="margin-top:15px;background:rgba(0,234,255,0.05);border:1px solid rgba(0,234,255,0.2);padding:12px 16px;border-radius:10px;display:inline-block;"><a href="https://www.youtube.com/watch?v=u1U7ph5LNbU" target="_blank" style="color:var(--cyan);text-decoration:none;font-weight:bold;font-size:18px;display:flex;align-items:center;gap:8px;">▶ how to use the product</a></p></div></div>${getReviewSectionHTML()}`,
   signin: `<div class="auth-wrap"><div class="auth-card"><div class="auth-tabs"><button class="auth-tab active" data-auth="login">LOG IN</button><button class="auth-tab" data-auth="signup">SIGN UP</button></div><div id="login-box"><div class="tag">[ CORTEX FUSION X IDENTITY SYSTEM ]</div><h1>Welcome <span>Back.</span></h1><p>Log in to access your Cortex Fusion X profile.</p><form id="login"><label>USERNAME OR EMAIL</label><input id="login-id" type="text" placeholder="Username or email" required><label>PASSWORD</label><div class="password-wrap"><input id="login-password" type="password" placeholder="••••••••" required><button type="button" class="show-pass" onclick="togglePass('login-password')">SHOW</button></div><button type="submit" class="auth-btn">LOG IN →</button></form></div><div id="signup-box" style="display:none"><div class="tag">[ CORTEX FUSION X IDENTITY SYSTEM ]</div><h1>Create <span>Account.</span></h1><p>Join Cortex Fusion X today.</p><form id="signup"><label>USERNAME</label><input id="sig-user" type="text" placeholder="Username" required><label>EMAIL</label><input id="sig-email" type="email" placeholder="name@example.com" required><label>PHONE NUMBER</label><input id="sig-phone" type="tel" placeholder="+91..." required><label>PASSWORD</label><div class="password-wrap"><input id="sig-password" type="password" placeholder="••••••••" required><button type="button" class="show-pass" onclick="togglePass('sig-password')">SHOW</button></div><button type="submit" class="auth-btn">SIGN UP →</button></form></div><div id="auth-msg" class="auth-msg"></div></div></div>`,
   profile: `<div class="page"><div class="tag">CORTEX FUSION X // PERSONALIZATION HUB</div><h1>User <span>Profile.</span></h1><p class="intro">Manage your personal details, custom avatar, and personalized network settings.</p><div class="profile-layout"><div class="profile-card"><div class="profile-avatar-container"><div class="profile-avatar-ring"></div><div id="profile-photo-preview" class="profile-photo">CFX</div></div><label class="custom-file profile-upload" for="profile-photo">📷 CHANGE AVATAR</label><input id="profile-photo" type="file" accept="image/*" style="display:none"><div id="welcome-preview" class="welcome-preview">Welcome User</div><div class="cyber-badge-container"><div class="cyber-badge">STATUS: <span>ONLINE 🟢</span></div><div class="cyber-badge">CLEARANCE: <span style="color:var(--cyan)">LEVEL ALPHA ⚡</span></div></div></div><div class="profile-form-panel"><h2><span>⚡</span> EDIT IDENTITY SETTINGS</h2><div class="profile-field-group"><label>// USERNAME</label><input id="profile-username" type="text" placeholder="Username"></div><div class="profile-field-group"><label>// EMAIL ADDRESS</label><input id="profile-email" type="email" placeholder="Email"></div><div class="profile-field-group"><label>// PHONE NUMBER</label><input id="profile-phone" type="tel" placeholder="+91..."></div><div class="profile-btn-grid"><button id="save-profile" class="save-profile-btn" type="button">SAVE PERSONALIZATION</button><button id="logout" class="logout-btn" type="button">LOG OUT</button></div><div id="profile-msg" class="auth-msg"></div></div></div></div>`
 };
@@ -1235,4 +1327,3 @@ setInterval(()=>{
 </script>
 </body>
 </html>
-```[cite: 3]
