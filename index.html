@@ -300,6 +300,109 @@ footer p{color:#5f6b79;margin-top:8px}
 .cyber-modal-btn:hover { box-shadow: 0 0 35px rgba(255,0,60,0.8); }
 .close-modal-x { position: absolute; right: 20px; top: 20px; cursor: pointer; color: var(--muted); font: 900 18px monospace; }
 
+/* ASK CORTEX FLOATING DECORATIVE WIDGET */
+#ask-cortex-widget {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 9999;
+  cursor: move;
+  user-select: none;
+}
+.cortex-floating-btn {
+  background: linear-gradient(135deg, rgba(0,234,255,0.2), rgba(255,0,60,0.2));
+  border: 1.5px solid var(--cyan);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font: 900 13px monospace;
+  letter-spacing: 1.5px;
+  box-shadow: 0 0 25px rgba(0,234,255,0.3), inset 0 0 10px rgba(0,234,255,0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+.cortex-floating-btn:hover {
+  border-color: var(--red);
+  box-shadow: 0 0 35px rgba(255,0,60,0.5), inset 0 0 15px rgba(255,0,60,0.3);
+  transform: scale(1.05);
+}
+.cortex-chat-box {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 320px;
+  background: linear-gradient(145deg, rgba(16,22,31,0.98), rgba(5,8,12,0.98));
+  border: 1.5px solid var(--cyan);
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(0,234,255,0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: popupZoom 0.2s ease-out;
+}
+.cortex-chat-header {
+  background: rgba(0,234,255,0.1);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,234,255,0.2);
+  font: 900 12px monospace;
+  color: var(--cyan);
+  letter-spacing: 1px;
+}
+.cortex-chat-body {
+  padding: 15px;
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  color: #cbd5e0;
+}
+.cortex-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 15px 15px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.cortex-option-btn {
+  background: rgba(0,234,255,0.05);
+  border: 1px solid rgba(0,234,255,0.2);
+  color: var(--cyan);
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-align: left;
+  font: 700 11px monospace;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.cortex-option-btn:hover {
+  background: var(--cyan);
+  color: #000;
+  box-shadow: 0 0 15px rgba(0,234,255,0.4);
+}
+.cortex-msg-bot {
+  background: rgba(0,234,255,0.08);
+  border: 1px solid rgba(0,234,255,0.15);
+  padding: 10px 12px;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+.cortex-msg-user {
+  background: rgba(255,0,60,0.08);
+  border: 1px solid rgba(255,0,60,0.2);
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #fff;
+  align-self: flex-end;
+  line-height: 1.5;
+}
+
 /* REVIEW SYSTEM STYLES */
 .reviews-section {
   margin-top: 40px;
@@ -645,6 +748,28 @@ footer p{color:#5f6b79;margin-top:8px}
 
 <main id="app"></main>
 
+<!-- ASK CORTEX FLOATING MOVABLE WIDGET -->
+<div id="ask-cortex-widget">
+  <div class="cortex-chat-box" id="cortex-chat-box">
+    <div class="cortex-chat-header">
+      <span>⚡ ASK CORTEX ASSISTANT</span>
+      <span style="cursor:pointer;" onclick="toggleCortexChat()">✕</span>
+    </div>
+    <div class="cortex-chat-body" id="cortex-chat-body">
+      <div class="cortex-msg-bot">Hello! I am your Cortex Fusion X Assistant. How can I help you today? Choose an option below:</div>
+    </div>
+    <div class="cortex-options-list">
+      <button class="cortex-option-btn" onclick="handleCortexOption(1)">1. How many days for shipping?</button>
+      <button class="cortex-option-btn" onclick="handleCortexOption(2)">2. Does your product have a guarantee?</button>
+      <button class="cortex-option-btn" onclick="handleCortexOption(3)">3. Can you customise our product?</button>
+      <button class="cortex-option-btn" onclick="handleCortexOption(4)">4. How can I find tutorial to use product?</button>
+    </div>
+  </div>
+  <button class="cortex-floating-btn" onclick="toggleCortexChat()">
+    💬 ASK CORTEX
+  </button>
+</div>
+
 <div class="cyber-modal-overlay" id="cyber-buy-modal">
   <div class="cyber-modal-card">
     <span class="close-modal-x" onclick="closeCyberBuyModal()">✕</span>
@@ -713,6 +838,80 @@ footer p{color:#5f6b79;margin-top:8px}
 </footer>
 
 <script>
+// Make Ask Cortex Widget Movable (Draggable)
+const widget = document.getElementById("ask-cortex-widget");
+let isDragging = false;
+let offsetX, offsetY;
+
+widget.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  offsetX = e.clientX - widget.getBoundingClientRect().left;
+  offsetY = e.clientY - widget.getBoundingClientRect().top;
+  e.preventDefault();
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+  widget.style.left = (e.clientX - offsetX) + "px";
+  widget.style.top = (e.clientY - offsetY) + "px";
+  widget.style.bottom = "auto";
+  widget.style.right = "auto";
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+});
+
+// Touch support for mobile dragging
+widget.addEventListener("touchstart", (e) => {
+  isDragging = true;
+  let touch = e.touches[0];
+  offsetX = touch.clientX - widget.getBoundingClientRect().left;
+  offsetY = touch.clientY - widget.getBoundingClientRect().top;
+});
+
+document.addEventListener("touchmove", (e) => {
+  if (!isDragging) return;
+  let touch = e.touches[0];
+  widget.style.left = (touch.clientX - offsetX) + "px";
+  widget.style.top = (touch.clientY - offsetY) + "px";
+  widget.style.bottom = "auto";
+  widget.style.right = "auto";
+});
+
+document.addEventListener("touchend", () => {
+  isDragging = false;
+});
+
+function toggleCortexChat() {
+  const chatBox = document.getElementById("cortex-chat-box");
+  chatBox.style.display = chatBox.style.display === "flex" ? "none" : "flex";
+}
+
+function handleCortexOption(optNum) {
+  const body = document.getElementById("cortex-chat-body");
+  let questionText = "";
+  let answerText = "";
+
+  if (optNum === 1) {
+    questionText = "How many days for shipping?";
+    answerText = "A product takes about 3 to 5 days more for shipping.";
+  } else if (optNum === 2) {
+    questionText = "Does your product have a guarantee?";
+    answerText = "No guarantee, but we provide a 1 year warranty.";
+  } else if (optNum === 3) {
+    questionText = "Can you customise our product?";
+    answerText = "Yes! You just email at cortexfusionx@gmail.com";
+  } else if (optNum === 4) {
+    questionText = "How can I find tutorial to use product?";
+    answerText = "You can visit our official channel Cortex Fusion X.";
+  }
+
+  body.innerHTML += `<div class="cortex-msg-user">${questionText}</div>`;
+  body.innerHTML += `<div class="cortex-msg-bot">${answerText}</div>`;
+  body.scrollTop = body.scrollHeight;
+}
+
 let cart = JSON.parse(localStorage.getItem("cortexfusionx_cart") || "[]");
 
 function saveCart() {
@@ -1287,7 +1486,6 @@ const pages = {
 function esc(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function getUser(){return JSON.parse(localStorage.getItem("cortexfusionx_user")||"null")}
 
-// Intercept state changes to automatically re-render without manual refreshing
 function setUser(u){
   localStorage.setItem("cortexfusionx_user",JSON.stringify(u));
   updateNav();
@@ -1340,13 +1538,11 @@ function initAuth(){
     const id = document.getElementById("login-id").value.trim();
     const pass = document.getElementById("login-password").value;
     
-    // Retrieve all registered accounts from persistent storage
     let accounts = JSON.parse(localStorage.getItem("cortexfusionx_accounts") || "[]");
     let found = accounts.find(acc => (acc.username === id || acc.email === id));
 
     if (!found) {
       toast("❌ ACCOUNT NOT FOUND. PLEASE SIGN UP FIRST.");
-      // Automatically switch to sign-up tab
       tabs.forEach(x => x.classList.remove("active"));
       document.querySelector('[data-auth="signup"]').classList.add("active");
       lBox.style.display = "none";
@@ -1359,7 +1555,6 @@ function initAuth(){
       return;
     }
 
-    // Correct login credentials verified
     setUser({...found, loggedIn: true});
     toast("LOGIN SUCCESSFUL");
     setTimeout(() => location.hash = "#profile", 500);
@@ -1375,7 +1570,6 @@ function initAuth(){
 
     let accounts = JSON.parse(localStorage.getItem("cortexfusionx_accounts") || "[]");
     
-    // Check if account already exists
     let existing = accounts.find(acc => acc.username === u || acc.email === em);
     if (existing) {
       toast("⚠️ ACCOUNT ALREADY EXISTS. PLEASE LOG IN.");
