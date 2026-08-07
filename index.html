@@ -385,21 +385,6 @@ footer p{color:#5f6b79;margin-top:8px}
   font: 10px monospace;
   color: var(--muted);
 }
-.reply-box {
-  margin-top: 12px;
-  padding: 12px;
-  background: rgba(255,0,60,.06);
-  border-left: 3px solid var(--red);
-  border-radius: 6px;
-  font-size: 13px;
-  color: #e2e8f0;
-}
-.reply-box strong {
-  color: var(--red);
-  display: block;
-  margin-bottom: 4px;
-  font-family: monospace;
-}
 .admin-reply-form {
   display: flex;
   gap: 8px;
@@ -603,7 +588,8 @@ footer p{color:#5f6b79;margin-top:8px}
   <nav>
     <a class="logo" href="#home">
       <div class="logo-icon-wrap">
-        <img src="favicon.png" alt="CF Logo">
+        <!-- FIXED IMAGE SOURCE FALLBACK -->
+        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23030507' stroke='%23ff163d' stroke-width='4'/><circle cx='50' cy='50' r='38' fill='%23ff003c'/><text x='50%' y='58%' font-size='32' font-weight='900' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'>CF</text></svg>" alt="CF Logo">
       </div>
       <span class="logo-text">CORTEX FUSION</span>
       <span class="logo-x-badge">X</span>
@@ -897,16 +883,14 @@ if (reviewsData.length === 0) {
       name: "Aman Sharma",
       rating: 5,
       comment: "CareAlerter is an amazing system! Very fast alert responses and top-notch hardware integration by Haeraksh Arora.",
-      date: "2026-02-10",
-      reply: "Thank you Aman! We are committed to engineering the best emergency alert systems."
+      date: "2026-02-10"
     },
     {
       id: 2,
       name: "Rohan Verma",
       rating: 5,
       comment: "AeroRescue AI YOLO model detection is super accurate. Great innovation under Cortex Fusion X!",
-      date: "2026-02-12",
-      reply: null
+      date: "2026-02-12"
     }
   ];
   localStorage.setItem("cortexfusionx_reviews", JSON.stringify(reviewsData));
@@ -936,8 +920,7 @@ function handleReviewSubmit(e) {
     name: nameInput.value.trim(),
     rating: currentRating,
     comment: commentInput.value.trim(),
-    date: new Date().toISOString().split('T')[0],
-    reply: null
+    date: new Date().toISOString().split('T')[0]
   };
 
   reviewsData.unshift(newReview);
@@ -948,20 +931,6 @@ function handleReviewSubmit(e) {
   setRating(5);
   toast("THANK YOU! REVIEW SUBMITTED SUCCESSFULLY");
   renderReviews();
-}
-
-function handleAdminReply(e, reviewId) {
-  e.preventDefault();
-  const replyInput = document.getElementById(`reply-input-${reviewId}`);
-  if (!replyInput || !replyInput.value.trim()) return;
-
-  const target = reviewsData.find(r => r.id === reviewId);
-  if (target) {
-    target.reply = replyInput.value.trim();
-    localStorage.setItem("cortexfusionx_reviews", JSON.stringify(reviewsData));
-    toast("FOUNDER REPLY SAVED");
-    renderReviews();
-  }
 }
 
 function renderReviews() {
@@ -986,11 +955,6 @@ function renderReviews() {
         </div>
         <div class="review-body">${esc(rev.comment)}</div>
         <div class="review-date">POSTED ON // ${rev.date || '2026-02-15'}</div>
-        ${rev.reply ? `<div class="reply-box"><strong>Founder Reply (Haeraksh Arora):</strong> ${esc(rev.reply)}</div>` : ''}
-        <form class="admin-reply-form" onsubmit="handleAdminReply(event, ${rev.id})">
-          <input type="text" id="reply-input-${rev.id}" placeholder="Reply as Founder/Admin..." required>
-          <button type="submit" class="admin-reply-btn">REPLY</button>
-        </form>
       </div>
     `;
   }).join('');
@@ -1068,9 +1032,9 @@ function loadHomeProducts() {
 }
 
 const pages = {
-  home: `<section class="hero"><div class="hero-content"><div class="tag">[ NEXT-GENERATION ENGINEERING PLATFORM ]</div><div><div class="founder-hero-badge"><div class="founder-hero-title">⚡ FOUNDER & LEAD ENGINEER:</div><div class="founder-hero-name">HAERAKSH ARORA</div></div></div><h1>BUILD.<br><span class="red">CREATE.</span><br><span class="cyan">INNOVATE.</span></h1><p>Cortex Fusion X brings robotics, artificial intelligence, electronics, and engineering into one futuristic technology hub founded by Haeraksh Arora.</p><div class="buttons"><a class="btn primary" href="#products">EXPLORE PRODUCTS</a><a class="btn secondary profile-home" href="#profile">MY PROFILE</a></div></div></section><section><div class="section-title"><small>CORTEX FUSION X ECOSYSTEM</small><h2>Featured Innovations</h2><p>Explore our latest products fetching live from our backend.</p></div><div class="products" id="home-products-container"><p style="color:var(--muted);text-align:center;">Loading products...</p></div></section><section><div class="section-title"><small>CORE INITIATIVE</small><h2>Future IoT</h2><p>Discover the next evolutionary wave of interconnected smart infrastructure.</p></div><div style="max-width:1050px;margin:auto;padding:45px 35px;background:linear-gradient(145deg,rgba(16,22,31,.92),rgba(5,8,12,.92));border:1.5px solid var(--cyan);border-radius:20px;box-shadow:0 0 50px rgba(0,234,255,.1);"><h3 style="font:900 24px monospace;color:var(--cyan);margin-bottom:12px;">📡 DEVELOPED BY IOT CORTEX</h3><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">Future IoT delivers automated telemetry, real-time edge processing, and multi-sensor connectivity built directly into the Cortex Fusion X ecosystem.</p><a class="btn primary" href="#futureiot">EXPLORE FUTURE IOT →</a></div></section>${getReviewSectionHTML()}`,
+  home: `<section class="hero"><div class="hero-content"><div class="tag">[ NEXT-GENERATION ENGINEERING PLATFORM ]</div><div><div class="founder-hero-badge"><div class="founder-hero-title">⚡ FOUNDER & LEAD ENGINEER:</div><div class="founder-hero-name">HAERAKSH ARORA</div></div></div><h1>BUILD.<br><span class="red">CREATE.</span><br><span class="cyan">INNOVATE.</span></h1><p>Cortex Fusion X brings robotics, artificial intelligence, electronics, and engineering into one futuristic technology hub founded by Haeraksh Arora.</p><div class="buttons"><a class="btn primary" href="#products">EXPLORE PRODUCTS</a><a class="btn secondary profile-home" href="#profile">MY PROFILE</a></div></div></section><section><div class="section-title"><small>CORTEX FUSION X ECOSYSTEM</small><h2>Featured Innovations</h2><p>Explore our latest products fetching live from our backend.</p></div><div class="products" id="home-products-container"><p style="color:var(--muted);text-align:center;">Loading products...</p></div></section><section><div class="section-title"><small>CORE INITIATIVE</small><h2>Future IoT</h2><p>Discover the next evolutionary wave of interconnected smart infrastructure.</p></div><div style="max-width:1050px;margin:auto;padding:45px 35px;background:linear-gradient(145deg,rgba(16,22,31,.92),rgba(5,8,12,.92));border:1.5px solid var(--cyan);border-radius:20px;box-shadow:0 0 50px rgba(0,234,255,.1);"><h3 style="font:900 24px monospace;color:var(--cyan);margin-bottom:12px;">📡 DEVELOPED BY IOT CORTEX</h3><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;">Future IoT delivers automated telemetry, real-time edge processing, and multi-sensor connectivity built directly into the Cortex Fusion X ecosystem.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;">By implementing ultra-low power microcontroller nodes combined with mesh networking protocols, our architecture ensures seamless data transmission across sprawling industrial and residential deployments.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">Experience uninterrupted uptime, automated anomaly diagnostics, and centralized cloud synchronization engineered for the next decade of intelligent environments.</p><a class="btn primary" href="#futureiot">EXPLORE FUTURE IOT →</a></div></section>${getReviewSectionHTML()}`,
   products: `<div class="page"><div class="tag">CORTEX FUSION X // PRODUCT CATALOG</div><h1>Active <span>Innovations.</span></h1><p class="intro">Explore hardware modules, AI emergency dispatch units, and software packages built by Founder Haeraksh Arora.</p><div class="products" id="home-products-container"></div></div>${getReviewSectionHTML()}`,
-  futureiot: `<div class="page"><div class="tag">CORTEX FUSION X // IOT CORTEX ARCHITECTURE</div><h1>Future <span>IoT.</span></h1><p class="intro">Developed by Iot Cortex — Pioneering the next generation of smart sensor networks, automated telemetry, and connected infrastructure.</p><div class="carealert-hero-card" style="border-color:var(--cyan);box-shadow:0 0 70px rgba(0,234,255,.15);"><div class="carealert-icon">📡</div><h2>FUTURE IOT</h2><div class="author-badge" style="border-color:var(--cyan);color:var(--cyan);background:rgba(0,234,255,.08);">⚡ DEVELOPED BY IOT CORTEX</div><p style="margin-top:14px;font-weight:bold;color:var(--muted);">Advanced Interconnected Device & Telemetry Architecture</p><div class="buttons care-buttons" style="margin-top:25px"><a class="btn secondary" href="#home">← BACK TO HOME</a><a class="btn primary" href="#products">EXPLORE PRODUCTS</a></div></div><div class="product-media-card"><h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;">// COMPREHENSIVE SYSTEM OVERVIEW</h2><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;font-size:16px;">Future IoT represents the cutting edge of interconnected device architecture, smart sensor integration, and automated edge-computing environments developed by Iot Cortex.</p></div></div>${getReviewSectionHTML()}`,
+  futureiot: `<div class="page"><div class="tag">CORTEX FUSION X // IOT CORTEX ARCHITECTURE</div><h1>Future <span>IoT.</span></h1><p class="intro">Developed by Iot Cortex — Pioneering the next generation of smart sensor networks, automated telemetry, and connected infrastructure.</p><div class="carealert-hero-card" style="border-color:var(--cyan);box-shadow:0 0 70px rgba(0,234,255,.15);"><div class="carealert-icon">📡</div><h2>FUTURE IOT</h2><div class="author-badge" style="border-color:var(--cyan);color:var(--cyan);background:rgba(0,234,255,.08);">⚡ DEVELOPED BY IOT CORTEX</div><p style="margin-top:14px;font-weight:bold;color:var(--muted);">Advanced Interconnected Device & Telemetry Architecture</p><div class="buttons care-buttons" style="margin-top:25px"><a class="btn secondary" href="#home">← BACK TO HOME</a><a class="btn primary" href="#products">EXPLORE PRODUCTS</a></div></div><div class="product-media-card"><h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;">// COMPREHENSIVE SYSTEM OVERVIEW</h2><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;font-size:16px;">Future IoT represents the cutting edge of interconnected device architecture, smart sensor integration, and automated edge-computing environments developed by Iot Cortex.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:15px;font-size:16px;">Our custom firmware suite optimizes power consumption dynamically while maximizing packet throughput across high-density wireless networks.</p><p style="color:#b0bccb;line-height:1.8;margin-bottom:20px;font-size:16px;">From automated environmental safety triggers to predictive hardware maintenance logs, Future IoT provides robust scalability for enterprise and smart city requirements.</p></div></div>${getReviewSectionHTML()}`,
   about: `<div class="page"><div class="tag">CORTEX FUSION X // MISSION & VISION</div><h1>Engineering <span>Tomorrow.</span></h1><p class="intro">Cortex Fusion X is an advanced technology platform combining software engineering, hardware design, artificial intelligence, and smart device architecture.</p><div class="info" style="margin-bottom:28px; border-color:var(--cyan); box-shadow: 0 0 30px rgba(0,234,255,0.2);"><h2 style="font-size:28px; font-weight:950; letter-spacing:2px; color:var(--cyan);">⚡ FOUNDER & VISIONARY: HAERAKSH ARORA</h2><p style="font-size:16px; line-height:1.8; color:#d1dce5; margin-bottom: 14px;">Cortex Fusion X was conceptualized, founded, and meticulously built from the ground up by <strong>Haeraksh Arora</strong>, a dedicated young engineer, full-stack developer, and technological innovator.</p></div></div>${getReviewSectionHTML()}`,
   contact: `<div class="page"><div class="tag">CORTEX FUSION X // DIRECT COMMUNICATIONS</div><h1>Get In <span>Touch.</span></h1><p class="intro">Have questions, technical inquiries, or business proposals? Connect directly with Founder Haeraksh Arora and the Cortex Fusion X engineering team.</p><div class="contact-container"><div class="contact-card"><div class="contact-icon">✉️</div><h3>Official Email</h3><p>Send your project queries, feedback or technical questions to our primary email address.</p><a class="contact-link-btn contact-btn-cyan" href="mailto:cortexfusionx@gmail.com">cortexfusionx@gmail.com ↗</a></div><div class="contact-card contact-card-red"><div class="contact-icon contact-icon-red">📞</div><h3>Phone & Order Hotline</h3><p>Direct line to Founder Haeraksh Arora for purchases, direct calls, technical collaboration, and support.</p><div class="phone-list"><a class="contact-link-btn contact-btn-red" href="tel:+917206789580">📞 +91 72067 89580</a></div></div></div></div>${getReviewSectionHTML()}`,
   carealert: `<div class="page carealert-page"><div class="tag">CORTEX FUSION X // ACTIVE PRODUCT</div><h1>Care<span>Alerter.</span></h1><p class="intro">An Intelligent Emergency Alert System designed to identify possible emergency situations and provide quick alerts.</p><div class="carealert-hero-card"><div class="carealert-icon">🚨</div><h2>CARE ALERTER</h2><div class="author-badge">⚡ CREATED & FOUNDED BY HAERAKSH ARORA</div><p style="margin-top:14px;font-weight:bold;color:var(--cyan);">Intelligent Emergency Alert System</p><div class="buttons care-buttons" style="margin-top:25px"><a class="btn secondary" href="#products">← BACK TO PRODUCTS</a><a class="btn primary" href="#home">CORTEX FUSION X HOME</a></div></div><div class="product-media-card" id="carealert-pricing-target"><h2 style="color:var(--cyan);margin-bottom:15px;font-family:monospace;">// SPECIFICATIONS_AND_PRICING</h2><p id="carealert-detail-para" style="color:#b0bccb;line-height:1.8;margin-bottom:20px;">CareAlerter engineered by <strong>Founder Haeraksh Arora</strong> features real-time emergency detection, data analysis, quick dashboard alert generation, and AI-assisted response workflow.</p><div class="price-box"><div><div style="font:800 11px monospace;color:var(--muted)">OFFICIAL BASE PRICE</div><div class="price-value">₹1000 ($10.50)</div></div><div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="btn secondary" href="tel:+917206789580" style="padding:11px 16px;">📞 CALL SUPPORT (+91 7206789580)</a><button class="btn primary" onclick="addToCart('CareAlerter', 1000)">ADD TO CART</button></div></div></div></div>${getReviewSectionHTML()}`,
